@@ -15,6 +15,7 @@ connectDB();
 
 // Use routes
 app.use('/api/sport', require ('./routes/user.js'));
+app.use('/api/article', require ('./routes/article.js'));
 app.use('/api/comment', require ('./routes/comment'));
 
 // Create port
