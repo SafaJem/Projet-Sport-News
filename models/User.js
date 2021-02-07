@@ -20,8 +20,11 @@ password:{
     type:String,
     required:true
 },
-Role:{
-    type:String
+isAdmin :{
+    type:Boolean
+},
+isJournalist :{
+    type:Boolean
 }
 
 })
