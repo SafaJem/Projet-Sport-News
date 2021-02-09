@@ -1,59 +1,21 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
+const User=require("../models/User")
+//Require the Article Schema
 const Article = require("../models/Article");
-
-// add new article
-router.post("/add", async (req, res) => {
-    const { idPerson,articleBody, specialty } = req.body;
-    try {
-      const newArticle = new Article({
-        idPerson,
-        articleBody,
-        specialty
-        
-      });
-      // save the article
-      const article = await newArticle.save();
-      res.json({ msg: "article added  ", article });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  // get article
-  router.get("/", async (req, res) => {
-    try {
-      const articles = await Article.find();
-      res.json({ msg: "data fetched", articles });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  // edit article
-  router.put("/edit/:_id", async (req, res) => {
-    const { _id } = req.params;
-    try {
-      const article = await Article.findOneAndUpdate({ _id }, { $set: req.body },{new:true});
-      res.json({ msg: "article edited", article });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-  // // delete article
-  router.delete("/delete/:id", async (req, res) => {
-    const { id } = req.params;
-    try {
-      const article = await article.findOneAndDelete({ _id: id });
-      res.json({ msg: "article deleted", article });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
-
-
-
-
-  module.exports = router;
+router.post("/articles/:_id",  async (req, res) => {
+const{_id}=req.params;
+  try {
+    const user = await User.findById(_id).select("-password");
+      const newArticle = {
+      text: req.body.text,
+      name: user.name,
+      user: user.id,
+    };
+    const article = await new Article(newArticle).save();
+    res.json(article); 
+  } catch (error) {
+      console.log(error)
+    res.status(500).json("Server Error !");
+  }
+});
+ module.exports=router;
