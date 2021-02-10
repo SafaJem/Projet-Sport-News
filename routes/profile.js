@@ -1,10 +1,15 @@
 const express = require("express");
 const router = express.Router();
+//Require the Profile Schema
 const Profile = require("../models/Profile");
+//Require the User Schema
 const User=require("../models/User")
 
+const isAuth=require('../middlewares/isAuth')
+
 // add new profile
-router.post("/addprofile/:_id",  async (req, res) => {
+// acces private
+router.post("/addprofile/:_id", isAuth , async (req, res) => {
     const {_id}=req.params;
       try {
         const user = await User.findById(_id).select("-password");
