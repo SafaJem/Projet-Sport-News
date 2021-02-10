@@ -3,14 +3,14 @@ const router = express.Router();
 const Profile = require("../models/Profile");
 const User=require("../models/User")
 
-// add new comment
+// add new profile
 router.post("/addprofile/:_id",  async (req, res) => {
-    const{_id}=req.params;
+    const {_id}=req.params;
       try {
         const user = await User.findById(_id).select("-password");
           const newProfile = {
           userName:req.body.userName,
-          user: user.name,
+          user: user.name
         };
         const profile = await new Profile(newProfile).save();
         res.json(profile); 
@@ -20,13 +20,5 @@ router.post("/addprofile/:_id",  async (req, res) => {
       }
   });
 
-  router.get("/", async (req, res) => {
-    try {
-      const profiles = await Profile.find().populate('User','name');
-      res.json({ msg: "data fetched", profiles });
-    } catch (error) {
-      console.log(error);
-    }
-  });
 
   module.exports = router;

@@ -4,15 +4,15 @@ const ArticleSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
   text: { type: String, require: true },
   name: { type: String },
-  likes: [{ user: { type: Schema.Types.ObjectId, ref: "User" } }],
   comments: [
     {
       user: { type: Schema.Types.ObjectId, ref: "User" },
-      text: { type: String, required: true },
       name: { type: String },
+      index:{ type: Number},
+      commentaire: { type: String, required: true },
       date: { type: Date, default: Date.now() },
     },
   ],
   date: { type: Date, default: Date.now() },
 });
-module.exports = Article = mongoose.model("Article", ArticleSchema);
+module.exports = Article = mongoose.model("articles", ArticleSchema);

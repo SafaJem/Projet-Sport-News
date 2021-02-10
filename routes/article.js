@@ -18,4 +18,28 @@ const{_id}=req.params;
     res.status(500).json("Server Error !");
   }
 });
+
+router.put("/newcomment/:_id",  async (req, res) => {
+  const { _id } = req.params;
+  try {
+    const article = await Article.findOneAndUpdate({_id},{ 
+      $push:{comments:{commentaire:req.body.commentaire,index:req.body.index}}
+    });
+    res.json(article);
+  }
+  catch (error) { res.status(500).send("Server Error !"); }
+});
+
+router.put("/deletecomment/:_id/:index",  async (req, res) => {
+  const { _id } = req.params;
+  const {index} =req.body;
+  try {
+    const article = await Article.findOneAndUpdate({_id},{ 
+      $pull:{comments:{index}}
+    });
+    res.json(article);
+  }
+  catch (error) { res.status(500).send("Server Error !"); }
+});
+
  module.exports=router;
