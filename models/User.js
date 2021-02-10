@@ -20,12 +20,8 @@ password:{
     type:String,
     required:true
 },
-isAdmin :{
-    type:Boolean
-},
-isJournalist :{
-    type:Boolean
+role :{
+    type:String
 }
-
 })
 module.exports=mongoose.model('users',userSchema)
