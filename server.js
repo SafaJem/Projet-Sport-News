@@ -27,7 +27,7 @@ connectDB();
 
 
 
-const multer = require('multer');
+/* const multer = require('multer');
  const  imgModel = require('./models/Image');
 
 
@@ -80,7 +80,7 @@ app.post('/', upload.single('image'), (req, res, next) => {
 app.put("/edit/:_id", async (req, res) => {
   const { _id } = req.params;
   try {
-    const image = await Image.findOneAndUpdate({ _id }, { $set: req.body },{new:true});
+    const image = await imgModel.findOneAndUpdate({ _id }, { $set: req.body },{new:true});
     res.json({ msg: "image edited", image });
   } catch (error) {
     console.log(error);
@@ -89,16 +89,32 @@ app.put("/edit/:_id", async (req, res) => {
 
 
 
-app.delete("/delete/:id", async (req, res) => {
-  const { id } = req.params;
+/*app.delete("/delete/:id", async (req, res) => {
+  const { _id } = req.params;
   try {
-    const image = await Image.findOneAndDelete({ _id: id });
+    const image = await imgModel.Delete({ _id});
     res.json({ msg: "image deleted", image });
   } catch (error) {
     console.log(error);
   }
-});
+});*/
+/*app.delete("/deleteimg/:id", function(req, res) {
+  imgModel.findByIdAndRemove(req.params.id, function(err) {
+    if(err) {
+      //Error Handling
+    } else {
 
+
+            console.log("failed to delete local image:"+err);
+       
+            console.log('successfully deleted local image');                                
+        }
+});
+    }
+  );
+;*/
+
+app.use('/api/image', require ('./routes/image.js'));
 app.use('/api/sport', require ('./routes/user.js'));
 app.use('/api/article', require ('./routes/article.js'));
 app.use('/api/profile', require ('./routes/profile'));
