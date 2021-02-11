@@ -92,7 +92,7 @@ router.get('/user',isAuth,(req,res)=>{
 })
 
 // edit user
-router.put("/edit/:_id", async (req, res) => {
+router.put("/edit/:_id", isAuth ,async (req, res) => {
     const { _id } = req.params;
     try {
       const user = await User.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
@@ -103,7 +103,7 @@ router.put("/edit/:_id", async (req, res) => {
   });
 
   // delete user
-  router.delete("/delete/:id", async (req, res) => {
+  router.delete("/delete/:id", isAuth,async (req, res) => {
     const { id } = req.params;
     try {
       const user = await User.findOneAndDelete({ _id: id });
