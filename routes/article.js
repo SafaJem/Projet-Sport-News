@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User=require("../models/User")
+
 //Require the Article Schema
+
 const Article = require("../models/Article");
 router.post("/articles/:_id",  async (req, res) => {
 const{_id}=req.params;
@@ -32,11 +34,27 @@ router.put("/newcomment/:_id",  async (req, res) => {
 
 router.put("/deletecomment/:_id/:index",  async (req, res) => {
   const { _id } = req.params;
-  const {index} =req.body;
+  const id = {_id}
+  const {index} =req.params;
   try {
-    const article = await Article.findOneAndUpdate({_id},{ 
-      $pull:{comments:{index}}
-    });
+    const article = await Article.updateOne({id}, 
+    { $pull: { "comments" : { _id: index } } }, { multi: true })
+    res.json(article);
+  }
+  catch (error) { res.status(500).send("Server Error !"); }//{ $pull: { results: { score: 8 , item: "B" } } }
+});
+
+
+router.put("/editcomment/:_id/:index",  async (req, res) => {
+  const { _id } = req.params;
+  const {index}=req.params;
+  const {commentaire}=req.body
+  try {
+    const article = await Article.updateOne({_id , "comments._id" : index},
+    {$set : {"comments.$.commentaire":commentaire}})
+
+    
+   
     res.json(article);
   }
   catch (error) { res.status(500).send("Server Error !"); }
