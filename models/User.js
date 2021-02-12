@@ -21,7 +21,8 @@ password:{
     required:true
 },
 role :{
-    type:String
+    type:String,
+    default:"Client"
 }
 })
 module.exports=mongoose.model('users',userSchema)
