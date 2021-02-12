@@ -45,7 +45,7 @@ await user.save()
 
 // sing user
 const payload={
-    id:user._id
+    _id:user._id
 }
 
 const token = await jwt.sign(payload,process.env.secretKey,{expiresIn:'7 days',})
@@ -73,7 +73,9 @@ if(!isMatch){
 }
 // sing user
 const payload={
-    id:user._id
+   
+  
+  _id:user._id
 }
 
 const token = await jwt.sign(payload,process.env.secretKey,{expiresIn:'7 days',});

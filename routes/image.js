@@ -1,8 +1,8 @@
 const multer = require('multer');
  const  imgModel = require('../models/Image');
 const router = require('express').Router();
-const fd= require('fs')
-
+const fs= require('fs')
+const path= require('path')
 
 
 const storage = multer.diskStorage({
@@ -26,25 +26,12 @@ router.get('/', (req, res) => {
         }
     });
 });
-/*router.post("/addprofile/:_id",  async (req, res) => {
-  const{_id}=req.params;
-    try {
-      const user = await User.findById(_id).select("-password");
-        const newProfile = {
-        text: req.body.text,
-        userName: user.name,
-        user: user.id,
-      };
-      const profile = await new Profile(newProfile).save();
-      res.json(profile); 
-    } catch (error) {
-        console.log(error)
-      res.status(500).json("Server Error !");
-    }
-  });*/
+
 
 router.post('/', upload.single('image'), (req, res, next) => {
  
+
+
     const obj = {
         name: req.body.name,
         desc: req.body.desc,
@@ -76,15 +63,7 @@ router.put("/edit/:_id", async (req, res) => {
 
 
 
-/*router.delete("/delete/:id", async (req, res) => {
-  const { _id } = req.params;
-  try {
-    const image = await imgModel.Delete({ _id});
-    res.json({ msg: "image deleted", image });
-  } catch (error) {
-    console.log(error);
-  }
-});*/
+
 router.delete("/deleteimg/:id", function(req, res) {
   imgModel.findByIdAndRemove(req.params.id, function(err) {
     if(err) {

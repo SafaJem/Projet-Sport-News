@@ -6,19 +6,24 @@ const User=require("../models/User")
 
 const Article = require("../models/Article");
 // Require Authentification middlewares
+const Image =require('../models/Image')
 const isAuth=require('../middlewares/isAuth')
 
 // Add article
 // acces private
-router.post("/articles/:_id", isAuth , async (req, res) => {
+router.post("/articles/:_id/:index", isAuth , async (req, res) => {
 const{_id}=req.params;
+const {index}=req.params;
 const {text} =req.body;
   try {
+    const image = await Image.findById(index);
     const user = await User.findById(_id).select("-password");
       const newArticle = {
       text,
       name: user.name,
       user: user.id,
+      image: image.img
+
     };
     const article = await new Article(newArticle).save();
     res.json({ msg: "article added", article });
@@ -31,7 +36,6 @@ const {text} =req.body;
 // Get articles
 // acces public
 router.get("/", isAuth,async (req, res) => {
-  const { id } = req.params;
   try {
     const articles = await Article.find();
     res.json({ msg: "All articles", articles });
@@ -66,11 +70,30 @@ router.delete("/delete/:id", isAuth,async (req, res) => {
 
 // Comment an article
 // acces private
-router.put("/newcomment/:_id", isAuth, async (req, res) => {
+router.put("/newcomment/:_id/:index", isAuth, async (req, res) => {
   const { _id } = req.params;
-  try {
+  const {index}=req.params
+    try {
+      const user = await User.findById(index) 
     const article = await Article.findOneAndUpdate({_id},{ 
-      $push:{comments:{commentaire:req.body.commentaire,index:req.body.index}}
+      $push:{comments:{commentaire:req.body.commentaire,name : user.name}}
+    });
+    res.json(article);
+  }
+  catch (error) { res.status(500).send("Server Error !"); }
+});
+
+// Reclamer article
+// acces private
+router.put("/reclamation/:_id/:index", isAuth, async (req, res) => {
+  const { _id } = req.params;
+  const {index}=req.params
+    try {
+
+      const user = await User.findById(index) 
+    const article = await Article.findOneAndUpdate({_id},{ 
+
+      $push:{reclamArticles:{reclamation:req.body.reclamation,name : user.name}}
     });
     res.json(article);
   }
@@ -81,10 +104,11 @@ router.put("/newcomment/:_id", isAuth, async (req, res) => {
 // acces private
 router.put("/deletecomment/:_id/:index", isAuth, async (req, res) => {
   const { _id } = req.params;
-  const id = {_id}
+ 
   const {index} =req.params;
   try {
-    const article = await Article.updateOne({id}, 
+
+    const article = await Article.updateOne({_id}, 
     { $pull: { "comments" : { _id: index } } }, { multi: true })
     res.json(article);
   }
@@ -92,7 +116,10 @@ router.put("/deletecomment/:_id/:index", isAuth, async (req, res) => {
 });
 
 
-router.put("/editcomment/:_id/:index",  async (req, res) => {
+
+//edit a comment 
+// private acces
+router.put("/editcomment/:_id/:index",isAuth,  async (req, res) => {
   const { _id } = req.params;
   const {index}=req.params;
   const {commentaire}=req.body
