@@ -61,14 +61,14 @@ router.put("/edit/:_id", isAuth ,async (req, res) => {
   
  // add new profile
 
-router.post("/addprofile/:_id/:index", isAuth, async (req, res) => {
-  const{_id}=req.params;
+router.post("/addprofile/:index", isAuth, async (req, res) => {
   const {index}=req.params
   const {userName}= req.body
     try {
-      const user = await User.findById(_id).select("-password");
+      
+      const user = await User.findById(req.user._id).select("-password");
       const image = await imgModel.findById(index);
-    
+   
         const newProfile = {
           
         userName,

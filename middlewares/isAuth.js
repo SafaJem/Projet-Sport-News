@@ -11,11 +11,12 @@ if(!token)
 return res.status(401).send({msg:"No Token, authorization denied"})
 const decoded= await jwt.verify(token,process.env.secretKey)
 // Add User from payload
-const user=await User.findById(decoded.id)
+const user=await User.findById(decoded._id)
 //Check for user
 if(!user){
 return res.status(401).send({msg:'Autorization deniet'})   
 }
+
 // Create user
 req.user=user
 next();
