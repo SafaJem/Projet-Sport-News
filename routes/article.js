@@ -70,12 +70,11 @@ router.delete("/delete/:id", isAuth,async (req, res) => {
 
 // Comment an article
 // acces private
-router.put("/newcomment/:_id/:index", isAuth, async (req, res) => {
-  const { _id } = req.params;
+router.put("/newcomment/:index", isAuth, async (req, res) => {
   const {index}=req.params
     try {
-      const user = await User.findById(index) 
-    const article = await Article.findOneAndUpdate({_id},{ 
+      const user = await User.findById(req.user._id) 
+    const article = await Article.findOneAndUpdate(index,{ 
       $push:{comments:{commentaire:req.body.commentaire,name : user.name}}
     });
     res.json(article);
