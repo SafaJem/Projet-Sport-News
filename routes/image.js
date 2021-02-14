@@ -7,10 +7,10 @@ const path= require('path')
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads')
+        cb(null, __dirname+'/uploads')
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now())
+        cb(null, file.fieldname + '-' +Date.now())
     }
 });
 const  upload = multer({ storage: storage });
@@ -22,31 +22,32 @@ router.get('/', (req, res) => {
             res.status(500).send('An error occurred', err);
         }
         else {
-            res.render('index', { items: items });
+            res.render('index', {  items });
         }
     });
 });
 
 
-router.post('/', upload.single('image'), (req, res, next) => {
+router.post('/', upload.single('image'),async (req, res, next) => {
  
-
-
+console.log(__dirname)
     const obj = {
         name: req.body.name,
         desc: req.body.desc,
         img: {
-            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+            data: fs.readFileSync(path.join( __dirname+'/uploads/' + req.file.filename)),
             contentType: 'image/png'
         }
     }
+    
+   
     imgModel.create(obj, (err, item) => {
         if (err) {
             console.log(err);
         }
         else {
-            // item.save();
             res.redirect('/');
+                  
         }
     });
 });
@@ -71,12 +72,13 @@ router.delete("/deleteimg/:id", function(req, res) {
     } else {
 
 
-            console.log("failed to delete local image:"+err);
+            console.log("failed to delete  image:"+err);
        
-            console.log('successfully deleted local image');                                
+            console.log('successfully deleted  image');                                
         }
 });
     }
   );
 ;
+
 module.exports = router;

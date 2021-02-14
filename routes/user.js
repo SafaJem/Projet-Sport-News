@@ -14,11 +14,12 @@ const jwt=require('jsonwebtoken')
 const {validator,registerRules,loginRules}=require('../middlewares/validator')
 
 // Require Authentification middlewares
-const isAuth=require('../middlewares/isAuth')
+const {isAuth,isAdmin}=require('../middlewares/isAuth')
 
 // get user
-router.get("/",async (req, res) => {
-   try{ const user= await User.find()
+router.get("/getalluser",async (req, res) => {
+   try{ 
+     const user= await User.find()
     res.json(user);}
     catch(err){
         res.send(err)
@@ -89,13 +90,21 @@ catch(err){
 })
 
 // Get authentified user
-router.get('/user',isAuth,(req,res)=>{
-    res.send({user:req.user})
-})
+router.get("/",async (req, res) => {
+  try{
+     const user= await User.find(req.user._id)
+   res.json(user);}
+   catch(err){
+       res.send(err)
+   }
+    });
+
+    
 
 // edit user
-router.put("/edit/:_id", isAuth ,async (req, res) => {
-    const { _id } = req.params;
+
+router.put("/edit", isAuth ,async (req, res) => {
+    const { _id } = req.user._id;
     try {
       const user = await User.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
       res.json({ msg: "user edited", user });
@@ -105,11 +114,11 @@ router.put("/edit/:_id", isAuth ,async (req, res) => {
   });
 
   // delete user
-  router.delete("/delete/:id", isAuth,async (req, res) => {
+  router.delete("/delete/:id", isAuth,isAdmin,async (req, res) => {
     const { id } = req.params;
     try {
       const user = await User.findOneAndDelete({ _id: id });
-      res.json({ msg: "contact deleted", user });
+      res.json({ msg: "user deleted", user });
     } catch (error) {
       console.log(error);
     }
