@@ -7,4 +7,3 @@ import adminReducers from './adminReducers'
 
 
 export default combineReducers({sportReducer,profileReducer,imageReducer,adminReducers,articleReducer})
-
