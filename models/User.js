@@ -22,7 +22,7 @@ password:{
 },
 role :{
     type:String,
-    default:"Client"
+    default:"client"
 }
 })
 module.exports=mongoose.model('users',userSchema)

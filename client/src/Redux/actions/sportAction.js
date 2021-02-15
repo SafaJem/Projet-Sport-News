@@ -1,8 +1,13 @@
 import axios from 'axios'
-import {SPORT_ERRORS,REGISTER_USER,LOGIN_USER} from '../constants/actionTypes'
+import {SPORT_ERRORS,REGISTER_USER,LOGIN_USER, USER_LOADING,GET_AUTH_USER,LOGOUT_USER,DELETED_USER} from '../constants/actionTypes'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
-
+const userLoading = () => (dispatch) => {
+    dispatch({
+      type: USER_LOADING,
+    });
+  };
+  
 
 
 const sportErrors=(error)=>(dispatch)=>{
@@ -29,6 +34,7 @@ if(msg){
 }  
 
 export const registerUser=(formData)=>async (dispatch) =>{
+    dispatch(userLoading());
 try{
 const res= await axios.post('/api/sport/register',formData);
 dispatch({
@@ -43,7 +49,7 @@ catch (err){
 }   
 
 export const loginUser=(formData)=>async (dispatch) =>{
-
+    dispatch(userLoading());
     try{
     const res= await axios.post('/api/sport/login',formData);
     dispatch({
@@ -55,4 +61,93 @@ export const loginUser=(formData)=>async (dispatch) =>{
     console.dir(err);
     dispatch(sportErrors(err));
     }
-    }   
+    } 
+    
+    // Get auth user
+export const getAuthUser = () => async (dispatch) => {
+    dispatch(userLoading());
+    try {
+      //headers
+      const config = {
+        headers: {
+          'x-auth-token': localStorage.getItem('token'),
+        },
+      };
+      const res = await axios.get('/api/sport/user', config);
+      dispatch({
+        type: GET_AUTH_USER,
+        payload: res.data, 
+      });
+    } catch (err) {
+        console.dir(err);
+        dispatch(sportErrors(err));
+        }
+        } 
+        
+  
+  export const logout = () => (dispatch) => {
+    dispatch({
+      type: LOGOUT_USER,
+    });
+  };
+
+  export const deleteAuthUser = () => async (dispatch) => {
+    dispatch(userLoading());
+    try {
+      //headers
+      const config = {
+        headers: {
+          'x-auth-token': localStorage.getItem('token'),
+        },
+      };
+      const res = await axios.delete('/api/sport/', config);
+      dispatch({
+        type: DELETED_USER,
+        payload: res.data, 
+      });
+    } catch (err) {
+        console.log(err);
+      
+        }
+        } 
+
+
+        export const editAuthUser = (formData ,) => async (dispatch) => {
+            dispatch(userLoading());
+            try {
+              //headers
+              const config = {
+                headers: {
+                  'x-auth-token': localStorage.getItem('token'),
+                },
+              };
+              const res = await axios.put('/api/sport/',formData ,config);
+              dispatch({
+                type: GET_AUTH_USER,
+                payload: res.data, 
+              });
+            } catch (err) {
+                console.log(err);
+              
+                }
+                }    
+
+                export const getAllUserAuth = () => async (dispatch) => {
+                  dispatch(userLoading());
+                  try {
+                    //headers
+                    const config = {
+                      headers: {
+                        'x-auth-token': localStorage.getItem('token'),
+                      },
+                    };
+                    const res = await axios.get('/api/sport/', config);
+                    dispatch({
+                      type: GET_AUTH_USER,
+                      payload: res.data, 
+                    });
+                  } catch (err) {
+                      console.log(err);
+                    
+                      }
+                      } 
