@@ -76,7 +76,7 @@ router.put("/newcomment/:index", isAuth, async (req, res) => {
       const user = await User.findById(req.user._id) 
     const article = await Article.findOneAndUpdate(index,{ 
       $push:{comments:{commentaire:req.body.commentaire,name : user.name}}
-    });
+    },{new:true});
     res.json(article);
   }
   catch (error) { res.status(500).send("Server Error !"); }

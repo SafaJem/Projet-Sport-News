@@ -129,9 +129,9 @@ router.get("/",async (req, res) => {
 // Admin edit
    router.put("/:_id", async (req, res) => {
      const { _id } = req.params;
-     const { name, lastName, email, password, role} = req.body;
+     const { name, lastName, email, role} = req.body;
      try {
-       const user = await User.findOneAndUpdate({ _id }, { $set: req.body });
+       const user = await User.findOneAndUpdate({ _id }, { $set: req.body } ,{new:true});
        res.json({ msg: "user edited", user});
      } catch (error) {
        console.log(error);
