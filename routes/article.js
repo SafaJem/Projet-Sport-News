@@ -7,12 +7,12 @@ const User=require("../models/User")
 const Article = require("../models/Article");
 // Require Authentification middlewares
 const Image =require('../models/Image')
-const isAuth=require('../middlewares/isAuth')
+const {isAuth,isJournalist }=require('../middlewares/isAuth')
 
 // Add article
 // acces private
-router.post("/articles/:_id/:index", isAuth , async (req, res) => {
-const{_id}=req.params;
+router.post("/articles/:index", isAuth ,isJournalist, async (req, res) => {
+const{_id}=req.user._id;
 const {index}=req.params;
 const {text} =req.body;
   try {
@@ -35,7 +35,7 @@ const {text} =req.body;
 
 // Get articles
 // acces public
-router.get("/", isAuth,async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     const articles = await Article.find();
     res.json({ msg: "All articles", articles });
@@ -48,7 +48,14 @@ router.get("/", isAuth,async (req, res) => {
 // acces private
 router.put("/edit/:_id", isAuth ,async (req, res) => {
   const { _id } = req.params;
+  const userId =req.user._id
   try {
+    const articleuUser = await Article.findOne({user: userId} );
+    if (articleuUser._id!=_id){
+
+       return res.status(400).json({ msg: 'u dont have acces to edit this article' });
+
+    }
     const article = await Article.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
     res.json({ msg: "article edited", article });
   } catch (error) {
@@ -60,8 +67,14 @@ router.put("/edit/:_id", isAuth ,async (req, res) => {
 // acces private
 router.delete("/delete/:id", isAuth,async (req, res) => {
   const { id } = req.params;
+  const userId =req.user._id
   try {
-    const article = await Article.findOneAndDelete({ _id: id });
+    const articleuUser = await Article.findOne({user: userId} );
+    if (articleuUser._id!=id){
+
+       return res.status(400).json({ msg: 'u dont have acces to delte this article' });
+
+    }    const article = await Article.findOneAndDelete({ _id: id });
     res.json({ msg: "article deleted", article });
   } catch (error) {
     console.log(error);
@@ -73,9 +86,8 @@ router.delete("/delete/:id", isAuth,async (req, res) => {
 router.put("/newcomment/:index", isAuth, async (req, res) => {
   const {index}=req.params
     try {
-      const user = await User.findById(req.user._id) 
     const article = await Article.findOneAndUpdate(index,{ 
-      $push:{comments:{commentaire:req.body.commentaire,name : user.name}}
+      $push:{comments:{commentaire:req.body.commentaire,user : req.user._id,name:req.user.name}}
     });
     res.json(article);
   }
@@ -84,9 +96,9 @@ router.put("/newcomment/:index", isAuth, async (req, res) => {
 
 // Reclamer article
 // acces private
-router.put("/reclamation/:_id/:index", isAuth, async (req, res) => {
+router.put("/reclamation/:_id/", isAuth, async (req, res) => {
   const { _id } = req.params;
-  const {index}=req.params
+  const {index}=req.user._id
     try {
 
       const user = await User.findById(index) 
@@ -103,12 +115,13 @@ router.put("/reclamation/:_id/:index", isAuth, async (req, res) => {
 // acces private
 router.put("/deletecomment/:_id/:index", isAuth, async (req, res) => {
   const { _id } = req.params;
- 
+  const {userId}=req.user._id;
+
   const {index} =req.params;
   try {
 
     const article = await Article.updateOne({_id}, 
-    { $pull: { "comments" : { _id: index } } }, { multi: true })
+    { $pull: { "comments" : { _id: index ,user : userId} } }, { multi: true })
     res.json(article);
   }
   catch (error) { res.status(500).send("Server Error !"); }//{ $pull: { results: { score: 8 , item: "B" } } }
@@ -121,9 +134,10 @@ router.put("/deletecomment/:_id/:index", isAuth, async (req, res) => {
 router.put("/editcomment/:_id/:index",isAuth,  async (req, res) => {
   const { _id } = req.params;
   const {index}=req.params;
+  const {userId}=req.user._id;
   const {commentaire}=req.body
   try {
-    const article = await Article.updateOne({_id , "comments._id" : index},
+    const article = await Article.updateOne({_id , "comments._id" : index,"comments.user" : userId},
     {$set : {"comments.$.commentaire":commentaire}})
 
     

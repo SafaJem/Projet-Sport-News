@@ -4,16 +4,17 @@ const router = express.Router();
 const Profile = require("../models/Profile");
 //Require the User Schema
 const User=require("../models/User")
+//require image scheme
 const imgModel=require("../models/Image")
 
-const isAuth=require('../middlewares/isAuth')
+const {isAuth,isAdmin}=require('../middlewares/isAuth')
 
 
 
 
 // get current profile 
 // acces private
-router.get("/me",async (req, res) => {
+router.get("/me",isAuth,async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id
@@ -44,7 +45,7 @@ router.get("/", isAuth,async (req, res) => {
 
  // add new profile
 
- router.post("/:index", async (req, res) => {
+ router.post("/:index",isAuth,async (req, res) => {
   const {index}=req.params
   const {userName}= req.body
     try {
@@ -98,5 +99,6 @@ router.put("/", isAuth ,async (req, res) => {
     }
   });
   
+
 
   module.exports = router;

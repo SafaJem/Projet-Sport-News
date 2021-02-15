@@ -14,7 +14,7 @@ const decoded= await jwt.verify(token,process.env.secretKey)
 const user=await User.findById(decoded._id)
 //Check for user
 if(!user){
-return res.status(401).send({msg:'Autorization deniet'})   
+return res.status(401).send({msg:'Autorization denied'})   
 }
 
 // Create user
@@ -27,7 +27,22 @@ catch(err){
 
 }
 
-module.exports=isAuth
+
+
+
+
+const isAdmin= async(req,res,next)=>{
+    if (req.user.role.toLowerCase() !="admin"){
+        res.status(401).send({msg : "you are not an admin "})
+    }
+}
+
+const isJournalist= async(req,res,next)=>{
+    if (req.user.role.toLowerCase() !="journaliste"){
+        res.status(401).send({msg : "you are not a journalist "})
+    }
+}
+module.exports={isAuth,isAdmin,isJournalist}
 
 
 
