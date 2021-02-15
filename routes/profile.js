@@ -11,84 +11,45 @@ const {isAuth,isAdmin}=require('../middlewares/isAuth')
 
 
 
-// get one profile 
-router.get("/one/:_id", isAuth,async (req, res) => {
-  const { _id } = req.params;
-  const userId =req.user._id
-  
+
+// get current profile 
+// acces private
+router.get("/me",isAuth,async (req, res) => {
   try {
-    const profileuUser = await Profile.findOne({user: userId} );
-    if (profileuUser._id!=_id){
+    const profile = await Profile.findOne({
+      user: req.user.id
+    }).populate('user', ['name', 'lastName']);
 
-       return res.status(400).json({ msg: 'u dont have acces to view this profile' });
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
 
-    }    const profile = await Profile.findById({_id});
-    res.json({ msg: 'profile ', profile });
-
-  } catch (error) {
-    console.log(error);
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 });
-
-
 
 
 // get all profiles 
 router.get("/", isAuth,async (req, res) => {
   try {
-    const profile = await Profile.find();
-    res.json({ msg: `profiles`, profile });
-  } catch (error) {
-    console.log(error);
-  }
-});
-// edit a profile 
-router.put("/edit/:_id", isAuth ,isAdmin,async (req, res) => {
-  const { _id } = req.params;
-  const userId =req.user._id
-  try {
-    const profileuUser = await Profile.findOne({user: userId} );
-    if (profileuUser._id!=_id){
-
-       return res.status(400).json({ msg: 'u dont have acces to edit this profile' });
-
-    }
-
-    const profile = await Profile.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
-    res.json({ msg: `profile edited `, profile });
-  } catch (error) {
-    console.log(error);
+    const profiles = await Profile.find().populate('user', ['name', 'lastName']);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.profileFields);
+    res.status(500).send('Server Error');
   }
 });
 
-
-  // delete a profile 
-  router.delete("/delete/:id", isAuth,isAdmin,async (req, res) => {
-    const { id } = req.params;
-    const userId =req.user._id
-    try {
-      const profileuUser = await Profile.findOne({user: userId} );
-      if (profileuUser._id!=id){
-
-         return res.status(400).json({ msg: 'u dont have acces to delete this profile' });
- 
-      }
-      const profile = await Profile.findOneAndDelete({  id });
-      res.json({ msg: "profile deleted", profile });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-  
-  
  // add new profile
 
-router.post("/addprofile/:index", isAuth, async (req, res) => {
+ router.post("/:index",isAuth,async (req, res) => {
   const {index}=req.params
   const {userName}= req.body
-  const _id=req.user._id
     try {
-      let profil = await Profile.findOne( {user :_id } );
+      let profil = await Profile.findOne({ user: req.user.id });
       let profilName = await Profile.findOne(  {userName} );
       if (profil) {
         return res.status(400).json({ msg: 'you have already a profil' });
@@ -96,14 +57,11 @@ router.post("/addprofile/:index", isAuth, async (req, res) => {
       if (profilName) {
         return res.status(400).json({ msg: 'userName exisits' });
       }
-      const user = await User.findById(_id).select("-password");
-      console.log(user)
+      const user = await User.findById(req.user._id).select("-password");
       const image = await imgModel.findById(index);
    
-        const newProfile = {
-          
+        const newProfile = {  
         userName,
-        name: user.name,
         user: user.id,
        image: image.img
       };
@@ -115,5 +73,32 @@ router.post("/addprofile/:index", isAuth, async (req, res) => {
       res.status(500).json("Server Error !");
     }
   });
+
+
+
+// edit a profile 
+router.put("/", isAuth ,async (req, res) => {
+  const {userName}= req.body
+
+  try {
+    const profile = await Profile.findOneAndUpdate({ user:req.user._id }, { $set: req.body }, {new:true});
+    res.json({ msg: `profile edited `, profile });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+  // delete a profile 
+  router.delete("/", isAuth,async (req, res) => {
+    try {
+     const profile = await Profile.findOneAndDelete({ user: req.user._id });
+      res.json({ msg: "profile deleted", profile });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  
+
 
   module.exports = router;
