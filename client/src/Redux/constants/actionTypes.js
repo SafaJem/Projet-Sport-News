@@ -1,3 +1,10 @@
 export const LOGIN_USER="LOGIN_USER"
 export const REGISTER_USER="REGISTER_USER"
 export const SPORT_ERRORS="SPORT_ERRORS"
+export const USER_LOADING="USER_LOADING"
+export const GET_AUTH_USER="GET_AUTH_USER"
+export const LOGOUT_USER="LOGOUT_USER"
+export const GET_PROFILE="GET_PROFILE"
+export const GET_IMAGE="GET_IMAGE"
+export const DELETED_USER="DELETED_USER"
+export const GET_ALL_USERS = "GET_ALL_USERS";

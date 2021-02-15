@@ -11,68 +11,56 @@ const isAuth=require('../middlewares/isAuth')
 
 
 
-// get one profile 
-router.get("/one/:_id", isAuth,async (req, res) => {
-  const { _id } = req.params;
+// get current profile 
+// acces private
+router.get("/me",async (req, res) => {
   try {
-    const profile = await Profile.findById({_id});
-    res.json({ msg: 'profile ', profile });
+    const profile = await Profile.findOne({
+      user: req.user.id
+    }).populate('user', ['name', 'lastName']);
 
-  } catch (error) {
-    console.log(error);
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
 });
-
-
 
 
 // get all profiles 
 router.get("/", isAuth,async (req, res) => {
   try {
-    const profile = await Profile.find();
-    res.json({ msg: `profiles`, profile });
-  } catch (error) {
-    console.log(error);
-  }
-});
-// edit a profile 
-router.put("/edit/:_id", isAuth ,async (req, res) => {
-  const { _id } = req.params;
-  try {
-    const profile = await Profile.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
-    res.json({ msg: `profile edited `, profile });
-  } catch (error) {
-    console.log(error);
+    const profiles = await Profile.find().populate('user', ['name', 'lastName']);
+    res.json(profiles);
+  } catch (err) {
+    console.error(err.profileFields);
+    res.status(500).send('Server Error');
   }
 });
 
-
-  // delete a profile 
-  router.delete("/delete/:id", isAuth,async (req, res) => {
-    const { id } = req.params;
-    try {
-      const profile = await Profile.findOneAndDelete({  id });
-      res.json({ msg: "profile deleted", profile });
-    } catch (error) {
-      console.log(error);
-    }
-  });
-  
-  
  // add new profile
 
-router.post("/addprofile/:index", isAuth, async (req, res) => {
+ router.post("/:index", async (req, res) => {
   const {index}=req.params
   const {userName}= req.body
     try {
-      
+      let profil = await Profile.findOne({ user: req.user.id });
+      let profilName = await Profile.findOne(  {userName} );
+      if (profil) {
+        return res.status(400).json({ msg: 'you have already a profil' });
+      }
+      if (profilName) {
+        return res.status(400).json({ msg: 'userName exisits' });
+      }
       const user = await User.findById(req.user._id).select("-password");
       const image = await imgModel.findById(index);
    
-        const newProfile = {
-          
+        const newProfile = {  
         userName,
-        name: user.name,
         user: user.id,
        image: image.img
       };
@@ -84,5 +72,31 @@ router.post("/addprofile/:index", isAuth, async (req, res) => {
       res.status(500).json("Server Error !");
     }
   });
+
+
+
+// edit a profile 
+router.put("/", isAuth ,async (req, res) => {
+  const {userName}= req.body
+
+  try {
+    const profile = await Profile.findOneAndUpdate({ user:req.user._id }, { $set: req.body }, {new:true});
+    res.json({ msg: `profile edited `, profile });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+
+  // delete a profile 
+  router.delete("/", isAuth,async (req, res) => {
+    try {
+     const profile = await Profile.findOneAndDelete({ user: req.user._id });
+      res.json({ msg: "profile deleted", profile });
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  
 
   module.exports = router;

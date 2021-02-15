@@ -34,8 +34,8 @@ router.post('/', upload.single('image'), (req, res, next) => {
 
     const obj = {
         name: req.body.name,
-        desc: req.body.desc,
-        img: {
+    
+        image: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
             contentType: 'image/png'
         }

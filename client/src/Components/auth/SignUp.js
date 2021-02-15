@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignUp() {
+const SignUp=()=> {
   const classes = useStyles();
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -62,7 +62,7 @@ export default function SignUp() {
   const handleRegister = () => {
     const newUser = { name, lastName, email, password };
     dispatch(registerUser(newUser));
-    history.push('/');
+    history.push('/createprofile');
     setEmail('');
     setName('');
     setLastName('');
@@ -167,3 +167,7 @@ export default function SignUp() {
     </Container>
   );
 }
+
+
+
+export default SignUp

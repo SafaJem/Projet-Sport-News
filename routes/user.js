@@ -16,18 +16,11 @@ const {validator,registerRules,loginRules}=require('../middlewares/validator')
 // Require Authentification middlewares
 const isAuth=require('../middlewares/isAuth')
 
-// get user
-router.get("/",async (req, res) => {
-   try{ const user= await User.find()
-    res.json(user);}
-    catch(err){
-        res.send(err)
-    }
-     });
+
 
 // Register new user
  router.post('/register',registerRules(),validator, async (req, res) => {
-    const { name, lastName, email, password,Role} = req.body;
+    const { name, lastName, email, password, role} = req.body;
     try {
       // Check for existing user
       let user = await User.findOne({ email });
@@ -35,7 +28,7 @@ router.get("/",async (req, res) => {
         return res.status(400).json({ msg: 'User already exists' });
       }
       // Create new User
-      user = new User({ name, lastName, email, password, Role });
+      user = new User({ name, lastName, email, password, role });
    // Create Salt & hash
    const salt=10;
    const hashedPassword=await bcrypt.hash(password,salt);
@@ -94,10 +87,9 @@ router.get('/user',isAuth,(req,res)=>{
 })
 
 // edit user
-router.put("/edit/:_id", isAuth ,async (req, res) => {
-    const { _id } = req.params;
+router.put("/", isAuth ,async (req, res) => {
     try {
-      const user = await User.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
+      const user = await User.findOneAndUpdate( { _id: req.user.id  }, { $set: req.body }, {new:true});
       res.json({ msg: "user edited", user });
     } catch (error) {
       console.log(error);
@@ -105,15 +97,46 @@ router.put("/edit/:_id", isAuth ,async (req, res) => {
   });
 
   // delete user
-  router.delete("/delete/:id", isAuth,async (req, res) => {
-    const { id } = req.params;
+  router.delete("/", isAuth,async (req, res) => {
+
     try {
-      const user = await User.findOneAndDelete({ _id: id });
-      res.json({ msg: "contact deleted", user });
+      const user = await User.findOneAndDelete({ _id: req.user._id });
+      res.json({ msg: "user deleted", user });
     } catch (error) {
       console.log(error);
     }
   });
+// get all users
+router.get("/",async (req, res) => {
+  try{ const user= await User.find()
+   res.json(user);}
+   catch(err){
+       res.send(err)
+   }
+    });
+
+// Admin delete
+    router.delete("/:id", async (req, res) => {
+     const { id } = req.params;
+     try {
+       const user = await User.findOneAndDelete({ _id: id });
+       res.json({ msg: "user deleted", user });
+     } catch (error) {
+       console.log(error);
+     }
+   });
+   
+// Admin edit
+   router.put("/:_id", async (req, res) => {
+     const { _id } = req.params;
+     const { name, lastName, email, password, role} = req.body;
+     try {
+       const user = await User.findOneAndUpdate({ _id }, { $set: req.body });
+       res.json({ msg: "user edited", user});
+     } catch (error) {
+       console.log(error);
+     }
+   });
 
 
 

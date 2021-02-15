@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignIn() {
+ const SignIn=()=> {
   const classes = useStyles();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -149,3 +149,5 @@ export default function SignIn() {
     </Grid>
   );
 }
+
+export default SignIn
