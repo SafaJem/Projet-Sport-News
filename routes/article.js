@@ -11,18 +11,19 @@ const {isAuth,isJournalist }=require('../middlewares/isAuth')
 
 // Add article
 // acces private
-router.post("/articles/:index", isAuth ,isJournalist, async (req, res) => {
+router.post("/articles", isAuth ,isJournalist, async (req, res) => {
 const{_id}=req.user._id;
-const {index}=req.params;
 const {text} =req.body;
-  try {
-    const image = await Image.findById(index);
+const {image} =req.body
+try {
     const user = await User.findById(_id).select("-password");
       const newArticle = {
       text,
       name: user.name,
       user: user.id,
-      image: image.img
+      image
+      , 
+      date : Date.now()
 
     };
     const article = await new Article(newArticle).save();
@@ -39,6 +40,40 @@ router.get("/",async (req, res) => {
   try {
     const articles = await Article.find();
     res.json({ msg: "All articles", articles });
+  } catch (error) {
+    console.log(error);
+  }
+});
+// get article by type 
+// public acces 
+router.get("/article/type",async (req, res) => {
+  const {type}=req.body
+  try {
+    const article = await Article.findOne(type);
+    res.json({ msg: "article", article });
+  } catch (error) {
+    console.log(error);
+  }
+});
+// get article by user 
+// public acces 
+router.get("/article/user",async (req, res) => {
+  const {user}=req.body
+  try {
+    const article = await Article.findOne({name : user});
+    res.json({ msg: "article", article });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// Get one article
+// acces public
+router.get("/oneArticle/:id",async (req, res) => {
+  const {_id}=req.params
+  try {
+    const article = await Article.findOne(_id);
+    res.json({ msg: "article", article });
   } catch (error) {
     console.log(error);
   }
@@ -104,8 +139,8 @@ router.put("/reclamation/:_id/", isAuth, async (req, res) => {
       const user = await User.findById(index) 
     const article = await Article.findOneAndUpdate({_id},{ 
 
-      $push:{reclamArticles:{reclamation:req.body.reclamation,name : user.name}}
-    });
+      $push:{reclamArticles:{reclamation:req.body.reclamation,name : user.name},}
+    },{new:true});
     res.json(article);
   }
   catch (error) { res.status(500).send("Server Error !"); }

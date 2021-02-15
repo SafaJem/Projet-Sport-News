@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 });
 const  upload = multer({ storage: storage });
 
-router.get('/', (req, res) => {
+/*router.get('/', (req, res) => {
     imgModel.find({}, (err, items) => {
         if (err) {
             console.log(err);
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
         }
     });
 });
-
+*/
 
 router.post('/', upload.single('image'),async (req, res, next) => {
  

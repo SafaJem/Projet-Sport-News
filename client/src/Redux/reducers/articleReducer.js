@@ -1,14 +1,17 @@
 import * as artTypes from '../constants/articleActionTypes'
 
-const initialState= {articles:[{_id:'1',text:'azerty',image:'oihpppdf',commentaires:[{_id:'01',commentaire:"this is 1st comment"}]},{_id:'2',text:'azerty',image:'oihdf',commentaires:[{_id:'03',commentaire:"this is 3rd comment"}]},{_id:'3',text:'azerty',image:'oiiiihdf',commentaires:[{_id:'01',commentaire:"this is 1st comment"}]}],}
+const initialState= {articles:[],}
 
 
     const articleReducer =(state=initialState,{type,payload})=>{
         switch(type){ 
             case  artTypes.GET_ARTICLE :
+              
                      return{
                        ...state,
                        articles : payload}
+            case artTypes.GET_ONE_ARTICLE :
+              return [...state.articles.filter(el=>el._id!==payload._id)   ]      
                              
             case artTypes.ADD_ARTICLE:
            return[...state.articles,{text:payload.text}]
@@ -21,7 +24,7 @@ const initialState= {articles:[{_id:'1',text:'azerty',image:'oihpppdf',commentai
                  
                  
              case  artTypes.COMMENT_ARTICLE :
-                 return state.articles.map(el=>el._id===payload._id ?[...el.commentaires ,{commentaire : payload.commentaire}] : el )
+                 return state.articles.map(el=>el._id===payload._id ?[...el.commentaires ,payload] : el )
               
              case  artTypes.EDIT_COMMENT :
              
@@ -30,13 +33,9 @@ const initialState= {articles:[{_id:'1',text:'azerty',image:'oihpppdf',commentai
              case  artTypes.DELETE_COMMENT :
                  return state.articles.map(el=>el._id===payload._id ?el.commentaires.filter(comment=>comment.id!==payload.id) : el )
                   
-             case artTypes.ADD_IMAGE:
-                   return[...state.articles,{image:payload.image}]
-
-             case  artTypes.EDIT_IMAGE:
-                     return state.articles.map(el=>el._id!==payload._id? el : {...el,image:payload.image} )
-             case  artTypes.del :
-                     return state.artciles.filter(el=>el._id!==payload._id)
+                 case  artTypes.ADD_RECLAMATION:
+                  return state.articles.map(el=>el._id===payload._id ?[...el.reclamArticles ,payload] : el )
+               
                    
              default:
                  return state;
