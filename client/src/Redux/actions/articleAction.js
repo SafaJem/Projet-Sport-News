@@ -41,13 +41,52 @@ catch (err){
     dispatch(articleError(err));
     }
 }   
-
+export const getArticle=()=>async (dispatch) =>{
+    try{
+    const res= await axios.get('/api/article');
+    dispatch({
+        type:artTypes.GET_ARTICLE,
+        payload:res.data
+    });
+    }
+    catch (err){
+        console.dir(err);
+        dispatch(articleError(err));
+        }
+    }   
+export const addImage=(formData)=>async (dispatch) =>{
+    try{
+    const res= await axios.post('/api/image',formData);
+    dispatch({
+        type:artTypes.ADD_IMAGE, 
+        payload:res.data
+    });
+    }
+    catch (err){
+        console.dir(err);
+        dispatch(articleError(err));
+        }
+    }   
 export const editArticle=(formData,idArticle)=>async (dispatch) =>{
 
     try{
     const res= await axios.put(`/api/article/edit/${idArticle}`,formData);
     dispatch({
         type:artTypes.EDIT_ARTICLE,
+        payload:res.data
+    });
+    }
+    catch (err){
+    console.dir(err);
+    dispatch(articleError(err));
+    }
+ }   
+ export const editImage=(formData,idImage)=>async (dispatch) =>{
+
+    try{
+    const res= await axios.put(`/api/image/edit/${idImage}`,formData);
+    dispatch({
+        type:artTypes.EDIT_IMAGE,
         payload:res.data
     });
     }

@@ -67,12 +67,13 @@ router.put("/edit/:_id", async (req, res) => {
 
 router.delete("/deleteimg/:id", function(req, res) {
   imgModel.findByIdAndRemove(req.params.id, function(err) {
-    if(err) {
-      //Error Handling
+    if(err) {//Error Handling 
+
+         console.log("failed to delete  image:" + err);
+
     } else {
 
 
-            console.log("failed to delete  image:"+err);
        
             console.log('successfully deleted  image');                                
         }
