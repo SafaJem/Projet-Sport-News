@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 });
 const  upload = multer({ storage: storage });
 
-router.get('/', (req, res) => {
+/*router.get('/', (req, res) => {
     imgModel.find({}, (err, items) => {
         if (err) {
             console.log(err);
@@ -26,7 +26,7 @@ router.get('/', (req, res) => {
         }
     });
 });
-
+*/
 
 router.post('/', upload.single('image'),async (req, res, next) => {
  
@@ -68,12 +68,13 @@ router.put("/edit/:_id", async (req, res) => {
 
 router.delete("/deleteimg/:id", function(req, res) {
   imgModel.findByIdAndRemove(req.params.id, function(err) {
-    if(err) {
-      //Error Handling
+    if(err) {//Error Handling 
+
+         console.log("failed to delete  image:" + err);
+
     } else {
 
 
-            console.log("failed to delete  image:"+err);
        
             console.log('successfully deleted  image');                                
         }

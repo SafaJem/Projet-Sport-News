@@ -1,5 +1,6 @@
 import './App.css';
 import NavBar from './Components/NavBar/navBar';
+import ArtCard from './Components/article/articleCard'
 import {BrowserRouter,Link,Switch,Route} from 'react-router-dom'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -42,6 +43,7 @@ function App() {
     <NavBar/>
     
     <Switch>
+    <Route exact path='/art' component={ArtCard}/>
     <Route exact path='/' component={Home}/>
     <Route  path='/Signin' component={SignIn}/>
     <Route  path='/Signup' component={SignUp}/>

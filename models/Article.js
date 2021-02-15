@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ArticleSchema = new Schema({
-  image: { type: Schema.Types.ObjectId, ref: "Image" },
+  image: { type:String },
   user: { type: Schema.Types.ObjectId, ref: "User" },
-  text: { type: String, require: true },
+  title: { type: String}, 
+  text: { type: String, require: true }, 
+  type: { type: String, require: true },
   name: { type: String },
-  image:{
-    data: Buffer,
-    contentType: String
-},
+
+ 
   comments: [
     {
       user: { type: Schema.Types.ObjectId, ref: "User" },

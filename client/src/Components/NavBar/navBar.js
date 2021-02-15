@@ -10,7 +10,7 @@ const NavBar = () => {
   const isAuth = useSelector((state) => state.sportReducer.isAuth);
   const user = useSelector((state) => state.sportReducer.user);
 
-
+console.log(user)
   const logoutUser = () => {
     dispatch(logout());
   };
@@ -48,6 +48,7 @@ return (
       <Nav.Link href="#features">FootBall</Nav.Link>
       <Nav.Link href="#pricing">HandBall</Nav.Link>
       <Nav.Link href="#pricing">Contact Us</Nav.Link>
+       <Nav.Link href="/art">art</Nav.Link>
       {isAuth ? authLinks : guestLinks}
 
 

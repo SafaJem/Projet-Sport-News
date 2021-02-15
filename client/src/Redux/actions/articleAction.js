@@ -5,8 +5,8 @@ import { Alert, AlertTitle } from '@material-ui/lab';
 
 
 
-const articleError=(error)=>(dispatch)=>{
-    const {errors,msg}= error.response.data
+/*const articleError=(error)=>(dispatch)=>{
+    const {errors,msg}= error.res.data
 if (Array.isArray(errors)){
     errors.forEach((el) => {
         <Alert severity="error">
@@ -26,7 +26,7 @@ if(msg){
             type:artTypes.ARTICLE_ERRORS,
         }
     );
-}  
+}  */
 
 export const addArticle=(formData)=>async (dispatch) =>{
 try{
@@ -38,10 +38,53 @@ dispatch({
 }
 catch (err){
     console.dir(err);
-    dispatch(articleError(err));
     }
 }   
-
+export const getOneArticle=()=>async (dispatch) =>{
+    try{
+    const res= await axios.get(`/api/article/oneArticle`);
+    dispatch({
+        type:artTypes.GET_ONE_ARTICLE,
+        payload:res.data
+    });
+    }
+    catch (err){
+        console.dir(err);
+        //dispatch(articleError(err));
+        }
+    }   
+    /*export const getAllUsers = () => (dispatch) => {
+  axios.get("/api/sport/")
+    .then((res) => dispatch({ type: GET_ALL_USERS, payload: res.data }))
+    .catch((err) => console.log(err));
+};*/
+export const getArticles=()=>async (dispatch) =>{
+    try{
+    const res= await axios.get('/api/article/');
+    dispatch({
+        type:artTypes.GET_ARTICLE,
+        payload:res.data
+    });
+    }
+    catch (err){
+        console.dir(err);
+        //dispatch(articleError(err));
+        }
+    }   
+    
+export const addImage=(formData)=>async (dispatch) =>{
+    try{
+    const res= await axios.post('/api/image',formData);
+    dispatch({
+        type:artTypes.ADD_IMAGE, 
+        payload:res.data
+    });
+    }
+    catch (err){
+        console.dir(err);
+        //dispatch(articleError(err));
+        }
+    }   
 export const editArticle=(formData,idArticle)=>async (dispatch) =>{
 
     try{
@@ -53,7 +96,21 @@ export const editArticle=(formData,idArticle)=>async (dispatch) =>{
     }
     catch (err){
     console.dir(err);
-    dispatch(articleError(err));
+    //dispatch(articleError(err));
+    }
+ }   
+ export const editImage=(formData,idImage)=>async (dispatch) =>{
+
+    try{
+    const res= await axios.put(`/api/image/edit/${idImage}`,formData);
+    dispatch({
+        type:artTypes.EDIT_IMAGE,
+        payload:res.data
+    });
+    }
+    catch (err){
+    console.dir(err);
+    //dispatch(articleError(err));
     }
  }   
 
@@ -68,7 +125,7 @@ export const editArticle=(formData,idArticle)=>async (dispatch) =>{
     }
     catch (err){
     console.dir(err);
-    dispatch(articleError(err));
+    //dispatch(articleError(err));
     }
     }  
      
@@ -83,14 +140,14 @@ export const commentArticle=(formData,idArticle)=>async (dispatch) =>{
     }
     catch (err){
     console.dir(err);
-    dispatch(articleError(err));
+    //dispatch(articleError(err));
     }
 }   
 
 export const editComment=(formData,idArticle,idComment)=>async (dispatch) =>{
 
     try{
-    const res= await axios.put(`/api/article/newcomment/${idArticle}/${idComment}`,formData);
+    const res= await axios.put(`/api/article/editcomment/${idArticle}/${idComment}`,formData);
     dispatch({
         type:artTypes.EDIT_COMMENT,
         payload:res.data
@@ -98,7 +155,7 @@ export const editComment=(formData,idArticle,idComment)=>async (dispatch) =>{
     }
     catch (err){
     console.dir(err);
-    dispatch(articleError(err));
+    //dispatch(articleError(err));
     }
 }   
 export const deleteComment=(idArticle,idComment)=>async (dispatch) =>{
@@ -112,7 +169,7 @@ export const deleteComment=(idArticle,idComment)=>async (dispatch) =>{
     }
     catch (err){
     console.dir(err);
-    dispatch(articleError(err));
+    //dispatch(articleError(err));
     }
 }   
             
@@ -127,7 +184,7 @@ export const deleteComment=(idArticle,idComment)=>async (dispatch) =>{
             }
             catch (err){
             console.dir(err);
-            dispatch(articleError(err));
+            //dispatch(articleError(err));
             }
             }   
                        
