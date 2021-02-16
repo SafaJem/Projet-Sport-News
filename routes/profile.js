@@ -4,21 +4,21 @@ const router = express.Router();
 const Profile = require("../models/Profile");
 //Require the User Schema
 const User=require("../models/User")
+//require image scheme
 const imgModel=require("../models/Image")
 
-const isAuth=require('../middlewares/isAuth')
+const {isAuth,isAdmin}=require('../middlewares/isAuth')
 
 
 
 
 // get current profile 
 // acces private
-router.get("/me",async (req, res) => {
-  try {
-    const profile = await Profile.findOne({
-      user: req.user.id
-    }).populate('user', ['name', 'lastName']);
-
+router.get("/me",isAuth,async (req, res) => {
+  
+    try{
+        const profile=await Profile.findById(req.user._id)
+        
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
     }
@@ -32,7 +32,7 @@ router.get("/me",async (req, res) => {
 
 
 // get all profiles 
-router.get("/", isAuth,async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     const profiles = await Profile.find().populate('user', ['name', 'lastName']);
     res.json(profiles);
@@ -44,25 +44,11 @@ router.get("/", isAuth,async (req, res) => {
 
  // add new profile
 
- router.post("/:index", async (req, res) => {
-  const {index}=req.params
+ router.post("/",isAuth, async (req, res) => {
   const {userName}= req.body
     try {
-      let profil = await Profile.findOne({ user: req.user.id });
-      let profilName = await Profile.findOne(  {userName} );
-      if (profil) {
-        return res.status(400).json({ msg: 'you have already a profil' });
-      }
-      if (profilName) {
-        return res.status(400).json({ msg: 'userName exisits' });
-      }
-      const user = await User.findById(req.user._id).select("-password");
-      const image = await imgModel.findById(index);
-   
-        const newProfile = {  
-        userName,
-        user: user.id,
-       image: image.img
+      const newProfile = {  
+        userName
       };
 
       const profile = await new Profile(newProfile).save();
@@ -98,5 +84,6 @@ router.put("/", isAuth ,async (req, res) => {
     }
   });
   
+
 
   module.exports = router;

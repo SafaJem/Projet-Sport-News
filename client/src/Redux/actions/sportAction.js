@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {SPORT_ERRORS,REGISTER_USER,LOGIN_USER, USER_LOADING,GET_AUTH_USER,LOGOUT_USER,DELETED_USER} from '../constants/actionTypes'
+import {SPORT_ERRORS,REGISTER_USER,LOGIN_USER,GET_PROFILE,USER_LOADING,GET_AUTH_USER,LOGOUT_USER,DELETED_USER} from '../constants/actionTypes'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
 const userLoading = () => (dispatch) => {
@@ -141,7 +141,7 @@ export const getAuthUser = () => async (dispatch) => {
                         'x-auth-token': localStorage.getItem('token'),
                       },
                     };
-                    const res = await axios.get('/api/sport/', config);
+                    const res = await axios.get('/api/sport/');
                     dispatch({
                       type: GET_AUTH_USER,
                       payload: res.data, 
@@ -151,3 +151,5 @@ export const getAuthUser = () => async (dispatch) => {
                     
                       }
                       } 
+              
+                    

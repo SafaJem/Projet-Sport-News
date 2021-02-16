@@ -1,36 +1,41 @@
-import React,{ useEffect } from 'react'
-import {Card,Button} from 'react-bootstrap'
-import { useDispatch,useSelector } from "react-redux" ;
+import {
+  Col,
+  Card,
+  ListGroup,
+  ListGroupItem,
+  CardHeader,
+  CardText,
+} from "reactstrap";
 
-import { getCurrentProfile } from '../../Redux/actions/profileAction';
+import { useSelector } from 'react-redux';
 
+function CardUser() {
+  const isAuth = useSelector((state) => state.sportReducer.isAuth);
+    const user = useSelector((state) => state.sportReducer.user);
+    return ( 
 
+        <Col sm="12" md="6" className="my-3">
+      <Card>
+        <CardHeader className="p-4 d-flex justify-content-around align-items-center ">
+          <CardText
+            style={{
+              width: "70px",
+              height: "70px",
+              fontSize: "1.5em",
+            }}
+            className="d-flex justify-content-center align-items-center mr-auto border rounded-circle text-light bg-info text-md"
+          >
+            {user ? ` ${user.name&&user.name[0].toUpperCase()}`: null}
+            
+          </CardText>
 
-const CardProfile=()=>{ 
-
- const dispatch = useDispatch(); 
-  useEffect(() => {
-   dispatch (getCurrentProfile());
-  }, []);
-
-  const Profile = useSelector((state) => state.profileReducer.profile);
-
-
-return (
-<div>
-<Card style={{ width: '18rem' }}>
-  <Card.Body>
-    <Card.Title>{Profile.userName}</Card.Title>
-    <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Button variant="primary">Go somewhere</Button>
-  </Card.Body>
-</Card>
-</div>
-)
-
-}
-
-export default CardProfile
+          <ListGroup flush className="w-75" >
+            <ListGroupItem>{user ? `Name: ${user.name}`: null}</ListGroupItem>
+            <ListGroupItem>{user ? `Last Name: ${user.lastName}`: null}</ListGroupItem>
+            <ListGroupItem>{user ? `Email: ${user.email}`: null}</ListGroupItem>
+          </ListGroup>
+        </CardHeader>
+      </Card>
+      </Col>  ) 
+    }
+export default CardUser;

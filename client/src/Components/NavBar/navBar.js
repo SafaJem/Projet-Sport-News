@@ -16,14 +16,9 @@ const NavBar = () => {
   };
   const authLinks = (
     <Fragment>
-      <Nav.Item>
-        
-          <span className="navbar-text mr-3">
-            <strong>{user ? `Welcome ${user.name}` : null}</strong>
-          </span>
-      
-      </Nav.Item>
-      <Nav.Link href="#" onClick={logoutUser}>
+       <Nav.Link href="#Articles">Articles</Nav.Link>
+      <Nav.Link href="/profile">Profile</Nav.Link>
+      <Nav.Link href="/" onClick={logoutUser}>
         {' '}
         Logout
       </Nav.Link>
@@ -45,8 +40,7 @@ return (
     <Navbar.Brand href="#home">Sport News</Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="/">Home</Nav.Link>
-      <Nav.Link href="#features">FootBall</Nav.Link>
-      <Nav.Link href="#pricing">HandBall</Nav.Link>
+     
       <Nav.Link href="#pricing">Contact Us</Nav.Link>
       {isAuth ? authLinks : guestLinks}
 

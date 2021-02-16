@@ -14,7 +14,7 @@ const jwt=require('jsonwebtoken')
 const {validator,registerRules,loginRules}=require('../middlewares/validator')
 
 // Require Authentification middlewares
-const isAuth=require('../middlewares/isAuth')
+const {isAuth,isAdmin}=require('../middlewares/isAuth')
 
 
 
@@ -83,11 +83,15 @@ catch(err){
 
 // Get authentified user
 router.get('/user',isAuth,(req,res)=>{
-    res.send({user:req.user})
+  res.send({user:req.user})
 })
 
 // edit user
-router.put("/", isAuth ,async (req, res) => {
+
+
+router.put("/edit", isAuth ,async (req, res) => {
+    const { _id } = req.user._id;
+
     try {
       const user = await User.findOneAndUpdate( { _id: req.user.id  }, { $set: req.body }, {new:true});
       res.json({ msg: "user edited", user });
@@ -97,6 +101,7 @@ router.put("/", isAuth ,async (req, res) => {
   });
 
   // delete user
+
   router.delete("/", isAuth,async (req, res) => {
 
     try {
@@ -106,11 +111,14 @@ router.put("/", isAuth ,async (req, res) => {
       console.log(error);
     }
   });
+
 // get all users
 router.get("/",async (req, res) => {
-  try{ const user= await User.find()
-   res.json(user);}
-   catch(err){
+  try{
+     const users= await User.find()
+     res.json(users);
+  }
+  catch(err){
        res.send(err)
    }
     });
@@ -131,7 +139,7 @@ router.get("/",async (req, res) => {
      const { _id } = req.params;
      const { name, lastName, email, role} = req.body;
      try {
-       const user = await User.findOneAndUpdate({ _id }, { $set: req.body } ,{new:true});
+       const user = await User.findOneAndUpdate({ _id }, { $set: req.body },{new:true});
        res.json({ msg: "user edited", user});
      } catch (error) {
        console.log(error);

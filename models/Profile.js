@@ -9,7 +9,8 @@ image: { type: Schema.Types.ObjectId, ref: "Image" },
 user: { type: Schema.Types.ObjectId, ref: "users" },
 userName:{
     type:String,
-    required:true
+    required:true,
+    unique : true
 },
 
 image:{

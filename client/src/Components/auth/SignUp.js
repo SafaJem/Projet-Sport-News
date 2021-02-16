@@ -62,7 +62,7 @@ const SignUp=()=> {
   const handleRegister = () => {
     const newUser = { name, lastName, email, password };
     dispatch(registerUser(newUser));
-    history.push('/createprofile');
+    history.push('/');
     setEmail('');
     setName('');
     setLastName('');

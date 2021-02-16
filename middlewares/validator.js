@@ -21,6 +21,12 @@ const loginRules=()=>[
         }
     ) 
 ]
+const articleRules =()=>{
+    body('text','article must contain at least 20 characters').isLength({min:20})
+}
+const commentRules =()=>{
+    body('commentaire','article must contain at least 1 characters').notEmpty()
+}
 
 const validator=(req,res,next)=>{
 const errors= validationResult(req)
@@ -31,4 +37,4 @@ if(!errors.isEmpty()){
 
 }
 
-module.exports = {validator,registerRules,loginRules}
+module.exports = {validator,registerRules,articleRules,loginRules,commentRules}
