@@ -35,12 +35,15 @@ const isAdmin= async(req,res,next)=>{
     if (req.user.role.toLowerCase() !="admin"){
         res.status(401).send({msg : "you are not an admin "})
     }
+    next();
 }
 
 const isJournalist= async(req,res,next)=>{
     if (req.user.role.toLowerCase() !="journaliste"){
         res.status(401).send({msg : "you are not a journalist "})
     }
+    next();
+    
 }
 module.exports={isAuth,isAdmin,isJournalist}
 

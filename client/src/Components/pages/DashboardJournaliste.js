@@ -5,23 +5,22 @@ import { Button } from "reactstrap";
 import {Link} from 'react-router-dom'
 import NavBar from "../NavBar/navBar";
 
- const DashboardAdmin=() =>{
+ const DashboardJournaliste=() =>{
     return (
     <div>
-
   <NavBar/>
  <Card>
-<CardHeader title="WELCOME TO THE ADMINISTRATION" />
+<CardHeader title="WELCOME TO THE JOURNALIST" />
  
- <Link to="/listusers">
+ <Link to="/listarticle">
           {" "}
-          <Button outline color="success">List Users</Button>
+          <Button outline color="success">List Articles</Button>
         </Link>
-        <Link to="/adduser">
+        <Link to="/addarticle">
           {" "}
-          <Button outline color="success">Create user</Button>
+          <Button outline color="success">Create article</Button>
         </Link>
         </Card>
 </div>)
 }
-export default DashboardAdmin
+export default DashboardJournaliste

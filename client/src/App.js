@@ -11,23 +11,21 @@ import Home from './Components/pages/Home'
 import CreateProfile from './Components/Profile/createProfile';
 import CardProfile from './Components/Profile/cardProfile'
 import { getAuthUser } from './Redux/actions/sportAction';
-import { getCurrentProfile } from './Redux/actions/profileAction';
-
 import UserList from './Components/users/UserList'
+import ListArticles from './Components/article/ListArticles'
+import CreateArticle from './Components/article/addArticle'
+
 import DashboardAdmin from './Components/pages/DashboardAdmin';
+import DashboardJournaliste from './Components/pages/DashboardJournaliste';
 import AddUsers from './Components/users/AddUsers';
+import Contactus from './Components/pages/ContactUs/Contactus'
 function App() {
  
     const dispatch = useDispatch();
     const { isLoading } = useSelector((state) => state.sportReducer);
     const getUser = () => dispatch(getAuthUser());
-    const getProfile=() => dispatch(getCurrentProfile());
     useEffect(() => {
       getUser();
-    }, []);
-
-    useEffect(() => {
-      getProfile();
     }, []);
 
 
@@ -44,20 +42,25 @@ function App() {
   return (
     <div className="App">
    <BrowserRouter>
-    <NavBar/>
     
     <Switch>
     <Route exact path='/art' component={ArtCard}/>
     <Route exact path='/' component={Home}/>
     <Route  path='/Signin' component={SignIn}/>
     <Route  path='/Signup' component={SignUp}/>
-    <Route  path='/dashboard' component={DashboardAdmin}/>
+    <Route  path='/dashboardAdmin' component={DashboardAdmin}/>
+    <Route  path='/dashboardJournaliste' component={DashboardJournaliste}/>
+
 
     <Route path='/listusers' render={()=><UserList/>} />
     <Route path='/adduser' render={()=><AddUsers/>} />
 
+    <Route path='/listarticle' render={()=><ListArticles/>} />
+    <Route path='/addarticle' render={()=><CreateArticle/>} />
+
     <Route exact path='/createprofile' component={CreateProfile}/>
     <Route exact path='/profile' component={CardProfile}/>
+    <Route exact path='/contactus' component={Contactus}/>
 
     </Switch>
     </BrowserRouter>

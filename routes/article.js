@@ -6,24 +6,22 @@ const User=require("../models/User")
 
 const Article = require("../models/Article");
 // Require Authentification middlewares
-const Image =require('../models/Image')
-const {isAuth,isJournalist }=require('../middlewares/isAuth')
+
+const {isAuth,isJournalist,isAdmin }=require('../middlewares/isAuth')
 
 // Add article
 // acces private
-router.post("/articles", isAuth ,isJournalist, async (req, res) => {
-const{_id}=req.user._id;
-const {text} =req.body;
-const {image} =req.body
+
+
+router.post("/articles" , async (req, res) => {
+const {text,image,title,nameJournaliste} =req.body;
 try {
-    const user = await User.findById(_id).select("-password");
+    // const user = await User.findById(_id).select("-password");
       const newArticle = {
+      title,
       text,
-      name: user.name,
-      user: user.id,
-      image
-      , 
-      date : Date.now()
+      image, 
+      nameJournaliste
 
     };
     const article = await new Article(newArticle).save();
@@ -79,18 +77,12 @@ router.get("/oneArticle/:id",async (req, res) => {
   }
 });
 
-// Edit article
+// Edit his article
 // acces private
-router.put("/edit/:_id", isAuth ,async (req, res) => {
-  const { _id } = req.params;
-  const userId =req.user._id
+router.put("/edit/:_id" ,async (req, res) => {
+  const {_id} =req.params
   try {
-    const articleuUser = await Article.findOne({user: userId} );
-    if (articleuUser._id!=_id){
-
-       return res.status(400).json({ msg: 'u dont have acces to edit this article' });
-
-    }
+   
     const article = await Article.findOneAndUpdate({ _id }, { $set: req.body }, {new:true});
     res.json({ msg: "article edited", article });
   } catch (error) {
@@ -98,18 +90,12 @@ router.put("/edit/:_id", isAuth ,async (req, res) => {
   }
 });
 
-// Delete article
+// Delete his article 
 // acces private
-router.delete("/delete/:id", isAuth,async (req, res) => {
+router.delete("/delete/:id",async (req, res) => {
   const { id } = req.params;
-  const userId =req.user._id
   try {
-    const articleuUser = await Article.findOne({user: userId} );
-    if (articleuUser._id!=id){
-
-       return res.status(400).json({ msg: 'u dont have acces to delte this article' });
-
-    }    const article = await Article.findOneAndDelete({ _id: id });
+       const article = await Article.findOneAndDelete({ _id: id });
     res.json({ msg: "article deleted", article });
   } catch (error) {
     console.log(error);
