@@ -11,7 +11,7 @@ import { deleteUser } from "../../Redux/actions/adminAction";
 import EditUser from "./EditUser";
 
 const UserCard = ({user}) => {
-  const dispatch = useDispatch();
+  const dispatch= useDispatch()
   const delet = () => {
     dispatch(deleteUser(user._id));
   };

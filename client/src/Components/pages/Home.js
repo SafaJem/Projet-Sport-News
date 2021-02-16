@@ -1,9 +1,15 @@
-import React from 'react';
+import React,{useState} from 'react'
+
+import List from '../article/articlevisiteurs/List';
+import NavBar from '../NavBar/navBar';
 
 const Home = () => {
+  const [searchbytitle,setSearchbytitle]=useState("")
+
   return (
     <div>
-      <h1 className="mb-3 ml-4">Home</h1>
+      <NavBar setSearchbytitle={setSearchbytitle}/>
+      <List searchbytitle={searchbytitle}/>
     </div>
   );
 };

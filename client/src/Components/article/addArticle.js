@@ -3,56 +3,62 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { Redirect } from "react-router-dom";
 import {useDispatch} from 'react-redux'
 import { addArticle } from '../../Redux/actions/articleAction';
-const createArticle=()=>{
- const [text,settext]=useState('')
- const [title,setTitle]=useState('')
 
- const [photo, setFieldValue] = useState("");
+const CreateArticle=()=>{
+ const [text,setText]=useState('')
+ const [title,setTitle]=useState('')
+ const [image, setImage] = useState("");
+ const [nameJournaliste,setNameJournaliste]=useState('')
  const [cancel, setCancel] = useState(false);
 
 const dispatch=useDispatch()
 const add=()=>
 {
-    dispatch(addArticle({text,photo}));
+    dispatch(addArticle({text,title,image,nameJournaliste}));
     setCancel(!cancel);
 
 }
-
-
 return(
     <>
     {cancel?
-    (<Redirect to='/list'/>)
+    (<Redirect to='/listarticle'/>)
     :(<div style={{ margin: "100px" }}>
-    <Form>
-      <FormGroup>
-        <Label for="exampletext">text</Label>
-        <Input
-          value={text}
-          onChange={(e) => settext(e.target.value)}
-          type="name"
-          placeholder="Enter your text"
-        />
-      </FormGroup>
-      <FormGroup>
+       <FormGroup>
         <Label for="exampletitle">Title</Label>
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="title"
-          placeholder="Enter your type"
+          placeholder="Enter your title"
+        />
+      </FormGroup>
+    <Form>
+      <FormGroup>
+        <Label for="exampletext">Text</Label>
+        <Input
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          type="name"
+          placeholder="Enter your text"
+        />
+      </FormGroup>
+     
+      <FormGroup>
+        <Label for="exampletitle">Image</Label>
+        <Input
+          value={image}
+          onChange={(e) => setImage(e.target.value)}
+          type="url"
+          placeholder="Enter your image"
         />
       </FormGroup>
       <FormGroup>
-        <Label for="exampleimage">Upload Image</Label>
+        <Label for="exampletext">Name Journaliste</Label>
         <Input
-          type="file"
-          id="image"
-          name="image"
-          value={photo}
-          onChange={(event) => {
-            setFieldValue("photo", event.currentTarget.files[0])}}
-          placeholder="Enter your url..."
+          value={nameJournaliste}
+          onChange={(e) => setNameJournaliste(e.target.value)}
+          type="name"
+          placeholder="Enter your text"
         />
       </FormGroup>
       
@@ -65,4 +71,4 @@ return(
 )
 }
 
-export default createArticle
+export default CreateArticle

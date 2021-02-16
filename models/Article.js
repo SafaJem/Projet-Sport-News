@@ -6,7 +6,7 @@ const ArticleSchema = new Schema({
   title: { type: String}, 
   text: { type: String, require: true }, 
   type: { type: String, require: true },
-  name: { type: String },
+  nameJournaliste: { type: String },
 
  
   comments: [

@@ -5,11 +5,8 @@ const Profile = require("../models/Profile");
 //Require the User Schema
 const User=require("../models/User")
 //require image scheme
-const imgModel=require("../models/Image")
 
 const {isAuth,isAdmin}=require('../middlewares/isAuth')
-
-
 
 
 // get current profile 

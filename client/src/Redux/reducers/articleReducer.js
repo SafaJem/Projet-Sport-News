@@ -1,29 +1,23 @@
-import * as artTypes from '../constants/articleActionTypes'
+import { GET_ARTICLE } from "../constants/actionTypes"
 
 const initialState= {articles:[],}
 
 
     const articleReducer =(state=initialState,{type,payload})=>{
         switch(type){ 
-            case  artTypes.GET_ARTICLE :
+            case GET_ARTICLE :
               
                      return{
                        ...state,
-                       articles : payload}
-            case artTypes.GET_ONE_ARTICLE :
+                       articles : payload};
+
+        /*      case artTypes.GET_ONE_ARTICLE :
               return [...state.articles.filter(el=>el._id!==payload._id)   ]      
                              
-            case artTypes.ADD_ARTICLE:
-           return[...state.articles,{text:payload.text}]
-
-             case  artTypes.EDIT_ARTICLE:
-               return state.articles.map(el=>el._id!==payload._id? el : {...el,text:payload.text} )
-    
-             case  artTypes.DELETE_ARTICLE :
-             return state.artciles.filter(el=>el._id!==payload._id)
+           
                  
                  
-             case  artTypes.COMMENT_ARTICLE :
+           case  artTypes.COMMENT_ARTICLE :
                  return state.articles.map(el=>el._id===payload._id ?[...el.commentaires ,payload] : el )
               
              case  artTypes.EDIT_COMMENT :
@@ -34,7 +28,7 @@ const initialState= {articles:[],}
                  return state.articles.map(el=>el._id===payload._id ?el.commentaires.filter(comment=>comment.id!==payload.id) : el )
                   
                  case  artTypes.ADD_RECLAMATION:
-                  return state.articles.map(el=>el._id===payload._id ?[...el.reclamArticles ,payload] : el )
+                  return state.articles.map(el=>el._id===payload._id ?[...el.reclamArticles ,payload] : el )*/
                
                    
              default:

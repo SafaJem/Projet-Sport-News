@@ -18,7 +18,7 @@ const AddUsers = () => {
   return (
     <>
       {cancel ? (
-        <Redirect to="/dashboard" />
+        <Redirect to="/listusers" />
       ) : (
         <div style={{ margin: "100px" }}>
             <Form>

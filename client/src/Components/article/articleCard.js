@@ -1,143 +1,50 @@
-import React,{ useEffect } from 'react'
+import React from 'react';
+import { useDispatch} from 'react-redux';
 
-import { useDispatch,useSelector } from "react-redux" ;
-
-import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-
-import {getOneArticle } from '../../Redux/actions/articleAction';
+import {
+  Card, CardImg, CardText, CardBody,
+  CardTitle, CardSubtitle, Button
+} from 'reactstrap';
+import { deleteArticle } from '../../Redux/actions/articleAction';
+import EditArticle from './EditArticle';
 
 
+const ArticleCard = ({article}) => {
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      maxWidth: 345,
-    },
-    media: {
-      height: 0,
-      paddingTop: '56.25%', // 16:9
-    },
-    expand: {
-      transform: 'rotate(0deg)',
-      marginLeft: 'auto',
-      transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-      }),
-    },
-    expandOpen: {
-      transform: 'rotate(180deg)',
-    },
-    avatar: {
-      backgroundColor: red[500],
-    },
-  }));
-
-
-
-
-
-const CardArticle=()=>{ 
-    const classes = useStyles();
-
- const dispatch = useDispatch(); 
-  useEffect(() => {
-   dispatch (getOneArticle());
-  }, []);
-
-  const Article = useSelector((state) => state.articleReducer.articles);
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
+  const dispatch = useDispatch();
+  const delet = () => {
+    dispatch(deleteArticle(article._id));
   };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar    className={classes.avatar}>
-          {Article._id}
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title=  {Article[0]}
-      
-      />
-      <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-       // title={Article.title}
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-         hh
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-        
-       
-          <Typography paragraph>
-        
-          </Typography>
-        </CardContent>
-      </Collapse>
-    </Card>
-  );
-}
-/*<div>
-<Card style={{ width: '18rem' }}>
-  <Card.Body>
-    <Card.Title>{Profile.userName}</Card.Title>
-    <Card.Text>
-      Some quick example text to build on the card title and make up the bulk of
-      the card's content.
-    </Card.Text>
-    <Button variant="primary">Go somewhere</Button>
-  </Card.Body>
-</Card>
-</div>
-)
 
-}
-*/
-export default CardArticle
+    <div style={{ minWidth: "300px", margin: "10px" }}>
+      <Card  body
+        inverse
+        style={{ backgroundColor: "#333", borderColor: "#333" }}>
+        <CardImg top width="100%" src={article.image} alt="Card image cap" />
+        <CardBody>
+          <CardTitle tag="h5">{article.title}</CardTitle>
+          <CardSubtitle tag="h6" className="mb-2 text-muted">
+   
+       Publier le   {article.date.slice(0, 10)} ---{" "}
+          {article.date.slice(11, 19)}
+          </CardSubtitle>
+          <CardText>{article.text}</CardText>
+          <CardText>Créer par {article.nameJournaliste}</CardText><div style={{ display: "flex", justifyContent: "space-arround" }}>
+     <Button color="warning" onClick={delet}>delete</Button> 
+        <EditArticle article={article}/>
+        </div>
+        </CardBody>
+        
+      </Card>
+    </div>
+  );
+};
+
+
+
+export default ArticleCard;
 
 
 

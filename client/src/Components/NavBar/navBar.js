@@ -4,7 +4,7 @@ import { logout } from '../../Redux/actions/sportAction';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-const NavBar = () => {
+const NavBar = ({setSearchbytitle}) => {
   const dispatch = useDispatch();
  
   const isAuth = useSelector((state) => state.sportReducer.isAuth);
@@ -37,19 +37,18 @@ return (
 
      <div>
      <Navbar bg="dark" variant="dark">
-    <Navbar.Brand href="#home">Sport News</Navbar.Brand>
+    <Navbar.Brand href="/">Sport News</Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="/">Home</Nav.Link>
      
-      <Nav.Link href="#pricing">Contact Us</Nav.Link>
-       <Nav.Link href="/art">art</Nav.Link>
+      <Nav.Link href="/contactus">Contact Us</Nav.Link>
       {isAuth ? authLinks : guestLinks}
 
 
     </Nav>
     <Form inline>
-      <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-      <Button variant="outline-info">Search</Button>
+      <FormControl type="text" color="success" placeholder="Search" className="mr-sm-2" onChange={(e)=>setSearchbytitle(e.target.value)}/>
+      <Button variant="outline-success">Search</Button>
     </Form>
   </Navbar>
  

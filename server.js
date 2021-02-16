@@ -23,15 +23,8 @@ app.use(bodyParser.json())
 connectDB();
 
 
-
-
-
-
-
-
-app.use('/', require ('./routes/image.js'));
 app.use('/api/sport', require ('./routes/user'));
-app.use('/api/article', require ('./routes/article.js'));
+app.use('/api/article', require ('./routes/article'));
 app.use('/api/profile', require ('./routes/profile'));
 
 // Create port
