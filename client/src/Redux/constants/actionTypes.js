@@ -8,3 +8,4 @@ export const GET_PROFILE="GET_PROFILE"
 export const GET_IMAGE="GET_IMAGE"
 export const DELETED_USER="DELETED_USER"
 export const GET_ALL_USERS = "GET_ALL_USERS";
+export const GET_ALL_PROFILES = "GET_ALL_PROFILES";

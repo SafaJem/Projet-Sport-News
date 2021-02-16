@@ -82,16 +82,9 @@ catch(err){
 })
 
 // Get authentified user
-router.get("/",async (req, res) => {
-  try{
-     const user= await User.find(req.user._id)
-   res.json(user);}
-   catch(err){
-       res.send(err)
-   }
-    });
-
-    
+router.get('/user',isAuth,(req,res)=>{
+  res.send({user:req.user})
+})
 
 // edit user
 
@@ -121,9 +114,11 @@ router.put("/edit", isAuth ,async (req, res) => {
 
 // get all users
 router.get("/",async (req, res) => {
-  try{ const user= await User.find()
-   res.json(user);}
-   catch(err){
+  try{
+     const users= await User.find()
+     res.json(users);
+  }
+  catch(err){
        res.send(err)
    }
     });
@@ -142,7 +137,7 @@ router.get("/",async (req, res) => {
 // Admin edit
    router.put("/:_id", async (req, res) => {
      const { _id } = req.params;
-     const { name, lastName, email, password, role} = req.body;
+     const { name, lastName, email, role} = req.body;
      try {
        const user = await User.findOneAndUpdate({ _id }, { $set: req.body },{new:true});
        res.json({ msg: "user edited", user});

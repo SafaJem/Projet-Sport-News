@@ -9,8 +9,10 @@ import SignIn from './Components/auth/SignIn';
 import SignUp from './Components/auth/SignUp';
 import Home from './Components/pages/Home'
 import CreateProfile from './Components/Profile/createProfile';
-import CardProfile from './Components/Profile/cardProfile';
+import CardProfile from './Components/Profile/cardProfile'
 import { getAuthUser } from './Redux/actions/sportAction';
+import { getCurrentProfile } from './Redux/actions/profileAction';
+
 import UserList from './Components/users/UserList'
 import DashboardAdmin from './Components/pages/DashboardAdmin';
 import AddUsers from './Components/users/AddUsers';
@@ -19,13 +21,15 @@ function App() {
     const dispatch = useDispatch();
     const { isLoading } = useSelector((state) => state.sportReducer);
     const getUser = () => dispatch(getAuthUser());
-    
+    const getProfile=() => dispatch(getCurrentProfile());
     useEffect(() => {
       getUser();
     }, []);
 
-   
-    
+    useEffect(() => {
+      getProfile();
+    }, []);
+
 
     if (isLoading) {
       return (

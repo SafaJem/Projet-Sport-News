@@ -1,4 +1,3 @@
-import { useScrollTrigger } from "@material-ui/core";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllUsers } from "../../Redux/actions/adminAction";
@@ -9,14 +8,16 @@ const UserList = () => {
   useEffect(() => {
     dispatch(getAllUsers());
   }, []);
-  const users = useSelector((state) => state.adminReducers.users);
+
+const users = useSelector((state)=>state.adminReducers.users);
   return (
     <div >
-      {users &&
-        users.map((user) => (
-          <UserCard key={user._id} user={user} />
+      { users &&
+        users.map((user)=>(<UserCard key={user._id} user={user} />))
+      }
+          
 
-        ))}
+       
     </div>
   );
 };

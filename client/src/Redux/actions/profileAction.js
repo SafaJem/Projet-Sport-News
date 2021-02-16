@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { GET_PROFILE } from '../constants/actionTypes';
+import { GET_PROFILE ,GET_ALL_PROFILES} from '../constants/actionTypes';
 
 // Get current users profile
-export const getCurrentProfile = () => async (dispatch) => {
+export const getCurrentProfile = (iduserauth) => async (dispatch) => {
     try {
-      const res = await axios.get('/api/profile/me');
+      
+      const res = await axios.get( ` /api/profile/me/${iduserauth}`);
   
       dispatch({
         type: GET_PROFILE,
@@ -18,9 +19,10 @@ export const getCurrentProfile = () => async (dispatch) => {
   };
 
 
-  export const createProfile=(idImage,formData)=>async (dispatch) =>{
+  export const createProfile=(formData)=>async (dispatch) =>{
     try{
-    const res= await axios.post(`/api/profile/:${idImage}`,formData);
+      
+    const res= await axios.post('/api/profile/',formData);
     dispatch({
         type:GET_PROFILE,
         payload:res.data
@@ -30,6 +32,4 @@ export const getCurrentProfile = () => async (dispatch) => {
         console.log(err)
 
     }
-    } 
-
-  
+    }      

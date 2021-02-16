@@ -1,4 +1,4 @@
-  import {GET_ALL_USERS} from '../constants/actionTypes'
+import {GET_ALL_USERS} from '../constants/actionTypes'
 
 const initState = {
   users: [],
