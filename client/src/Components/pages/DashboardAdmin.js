@@ -21,6 +21,14 @@ import NavBar from "../NavBar/navBar";
           {" "}
           <Button outline color="success">Create user</Button>
         </Link>
+        <Link to="/listarticle">
+          {" "}
+          <Button outline color="success">List Articles</Button>
+        </Link>
+        <Link to="/addarticle">
+          {" "}
+          <Button outline color="success">Create article</Button>
+        </Link>
         </Card>
 </div>)
 }
