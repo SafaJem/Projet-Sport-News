@@ -104,33 +104,51 @@ router.delete("/delete/:id",async (req, res) => {
 
 // Comment an article
 // acces private
-router.put("/newcomment/:index", isAuth, async (req, res) => {
+router.post("/newcomment/:index", isAuth, async (req, res) => {
   const {index}=req.params
     try {
-    const article = await Article.findOneAndUpdate(index,{ 
-
-      $push:{comments:{commentaire:req.body.commentaire,name : user.name}}
-    },{new:true});
-
+    const article = await Article.findById(index)
+    const user = await User.findById(req.user.id)
+      const newComment = {
+         user: user.id,
+          name: user.name,
+        commentaire : req.body.commentaire,
+       
+        date : Date.now(),
+       
+      };
       
-    res.json(article);
+    article.comments.unshift(newComment)
+
+    /*  $push:{comments:{commentaire:req.body.commentaire,name :req.user.name}}
+    },{new:true});*/
+
+      await article.save()
+    res.json(article.comments);
   }
-  catch (error) { res.status(500).send("Server Error !"); }
+  catch (error) { res.status(500).send(error); }
 });
 
 // Reclamer article
 // acces private
-router.put("/reclamation/:_id/", isAuth, async (req, res) => {
-  const { _id } = req.params;
-  const {index}=req.user._id
+router.post("/reclamation/:_id/", isAuth, async (req, res) => {
+  const { id } = req.params;
     try {
 
-      const user = await User.findById(index) 
-    const article = await Article.findOneAndUpdate({_id},{ 
+      const user = await User.findById(  req.user._id        ) 
+    const article = await Article.findOne(id)
+    
+const newReclamtion ={
+  user: user.id , 
+  reclamation : req.body.reclamation,
+  name : user.name , 
+  date : Date.now(),
 
-      $push:{reclamArticles:{reclamation:req.body.reclamation,name : user.name},}
-    },{new:true});
-    res.json(article);
+}
+  article.reclamArticles.unshift(newReclamtion)
+
+    await article.save()
+    res.json(article.reclamArticles);
   }
   catch (error) { res.status(500).send("Server Error !"); }
 });

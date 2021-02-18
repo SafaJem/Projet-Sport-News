@@ -16,6 +16,7 @@ console.log(user)
   };
   const authLinks = (
     <Fragment>
+      
        <Nav.Link href="#Articles">Articles</Nav.Link>
       <Nav.Link href="/profile">Profile</Nav.Link>
       <Nav.Link href="/" onClick={logoutUser}>

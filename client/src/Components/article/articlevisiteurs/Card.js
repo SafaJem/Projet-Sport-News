@@ -1,8 +1,10 @@
 import React from 'react';
 import {Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle} from 'reactstrap';
+import CommentForm from '../comment'
+import  CommentList from '../ListComments'
+import FormReclamation from  '../addReclamation'
 
 const Cardd = ({article}) => {
-
   return (
 
     <div style={{ minWidth: "300px", margin: "10px" }}>
@@ -20,8 +22,10 @@ const Cardd = ({article}) => {
           <CardText>{article.text}</CardText>
           <CardText>Créer par {article.nameJournaliste}</CardText>
         </CardBody>
-        
+          <CommentForm article={article} />
       </Card>
+      <CommentList comments={article.comments} />
+      <FormReclamation article = {article}/>
     </div>
   );
 };

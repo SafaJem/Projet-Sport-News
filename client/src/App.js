@@ -19,6 +19,7 @@ import DashboardAdmin from './Components/pages/DashboardAdmin';
 import DashboardJournaliste from './Components/pages/DashboardJournaliste';
 import AddUsers from './Components/users/AddUsers';
 import Contactus from './Components/pages/ContactUs/Contactus'
+import PrivateRoute from './Components/Routes/PrivateRouteAdmin';
 function App() {
  
     const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
     if (isLoading) {
       return (
         <div style={{ textAlign: 'center', marginTop: '50px' }}>
+         
           <Spinner
             style={{ width: '3rem', height: '3rem', color: 'secondary' }}
             type="grow"
@@ -40,7 +42,7 @@ function App() {
       );
     }
   return (
-    <div className="App">
+    <div className="App"> 
    <BrowserRouter>
     
     <Switch>
@@ -48,7 +50,7 @@ function App() {
     <Route exact path='/' component={Home}/>
     <Route  path='/Signin' component={SignIn}/>
     <Route  path='/Signup' component={SignUp}/>
-    <Route  path='/dashboardAdmin' component={DashboardAdmin}/>
+    <PrivateRoute  path='/dashboardAdmin' component={DashboardAdmin} exact />
     <Route  path='/dashboardJournaliste' component={DashboardJournaliste}/>
 
 
