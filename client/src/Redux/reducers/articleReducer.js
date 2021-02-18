@@ -34,15 +34,11 @@ const initialState= {articles:[] ,}
                          
                         };
                         case REMOVE_COMMENT:
+                         let newstate  ={ ...state, articles:  state.articles.articles.filter( art => art._id !== payload.articleId)}
                           return {
-                            ...state,
-                            article: {
-                              ...state.article,
-                              comments: state.article.comments.filter(
-                                (comment) => comment._id !== payload
-                              ),
-                            }}
-                            default:
+                        ... newstate.articles.comments.filter(el=>el._id!== payload.commentId)
+                            }
+                        default:
                  return state;
         /*      case artTypes.GET_ONE_ARTICLE :
               return [...state.articles.filter(el=>el._id!==payload._id)   ]      

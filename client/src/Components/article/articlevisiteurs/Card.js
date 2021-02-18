@@ -1,32 +1,34 @@
 import React from 'react';
 import {Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle} from 'reactstrap';
-import CommentForm from '../comment'
-import  CommentList from '../ListComments'
-import FormReclamation from  '../addReclamation'
-
+import CommentForm from '../Comments/Addcomment'
+import  CommentList from '../Comments/ListComments'
+import FormReclamation from  '../Reclamations/addReclamation'
 const Cardd = ({article}) => {
   return (
-
+    
     <div style={{ minWidth: "300px", margin: "10px" }}>
       <Card  body
         inverse
         style={{ backgroundColor: "#333", borderColor: "#333" }}>
+         <CardTitle tag="h5">{article.title}</CardTitle> 
         <CardImg top width="100%" src={article.image} alt="Card image cap" />
         <CardBody>
-          <CardTitle tag="h5">{article.title}</CardTitle>
+          
           <CardSubtitle tag="h6" className="mb-2 text-muted">
    
-       Publier le   {article.date.slice(0, 10)} ---{" "}
+       Publié le   {article.date.slice(0, 10)} ---{" "}
           {article.date.slice(11, 19)}
           </CardSubtitle>
           <CardText>{article.text}</CardText>
-          <CardText>Créer par {article.nameJournaliste}</CardText>
+          <CardText>Crée par {article.nameJournaliste}</CardText>
         </CardBody>
           <CommentForm article={article} />
+         <CommentList  comments={article.comments} idArticle={article._id}  />
+      <FormReclamation article = {article}/>  
+     
       </Card>
-      <CommentList comments={article.comments} />
-      <FormReclamation article = {article}/>
-    </div>
+      </div>
+ 
   );
 };
 

@@ -12,11 +12,8 @@ userName:{
     required:true,
     unique : true
 },
+name :{type:String},
+lastName :{type:String}
 
-image:{
-    data: Buffer,
-    contentType: String
-},
-name :{type:String}
 })
 module.exports=mongoose.model('profiles',profileSchema)

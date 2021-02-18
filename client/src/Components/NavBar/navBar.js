@@ -19,12 +19,11 @@ console.log(user)
   const authLinks = (
     <Fragment>
       
-       <Nav.Link href="#Articles">Articles</Nav.Link>
-      <Nav.Link href="/profile">Profile</Nav.Link>
- <Nav.Item ><Link to="/dashboardAdmin"> <span className="navbar-text mr-4"><strong> Admin </strong> </span></Link> </Nav.Item> 
+  <Nav.Link href="/profile">Profile</Nav.Link>
+  <Nav.Item ><Link to="/dashboardAdmin"> <span className="navbar-text mr-4"><strong>   Admin </strong> </span></Link> </Nav.Item> 
   <Nav.Item ><Link to="/dashboardJournaliste"> <span className="navbar-text mr-4"><strong> Journaliste </strong> </span></Link> </Nav.Item>
 
-      <Nav.Link href="/" onClick={logoutUser}>
+      <Nav.Link href="/Signin" onClick={logoutUser}>
         {' '}
         Sign Out
       </Nav.Link>
@@ -33,6 +32,7 @@ console.log(user)
 
   const guestLinks = (
     <Fragment>
+     
      <Nav.Link href="/Signin"> Sign In </Nav.Link>
       <Nav.Link href="/Signup">Sign Up</Nav.Link>
 
@@ -47,8 +47,8 @@ return (
     <Navbar.Brand href="/">Sport News</Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="/">Home</Nav.Link>
-     
       <Nav.Link href="/contactus">Contact Us</Nav.Link>
+      <Nav.Link href="/Article">Articles</Nav.Link>
       {isAuth ? authLinks : guestLinks}
 
 

@@ -33,7 +33,7 @@ const EditUser = ({ user }) => {
   };
   return (
     <div>
-      <Button color="danger" onClick={toggle}>
+      <Button color="success" onClick={toggle}>
         Edit user{" "}
       </Button>
       <Modal isOpen={modal} toggle={toggle}>
@@ -90,10 +90,10 @@ const EditUser = ({ user }) => {
 
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={editt}>
+          <Button  outline color="success" onClick={editt}>
             save
           </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
+          <Button  outline color="success" onClick={toggle}>
             Cancel
           </Button>
         </ModalFooter>
