@@ -146,6 +146,18 @@ router.get("/",async (req, res) => {
      }
    });
 
-
+   router.post("/add" , async (req, res) => {
+    const { name, lastName, email, password, role} =req.body;
+    try {
+          const newUser = {
+            name, lastName, email, password, role
+        };
+        const user = await new User(newUser).save();
+        res.json( user);
+      } catch (error) {
+          console.log(error)
+        res.status(500).json("Server Error !");
+      }
+    });
 
 module.exports = router;

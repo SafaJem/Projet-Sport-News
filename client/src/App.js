@@ -19,7 +19,8 @@ import DashboardAdmin from './Components/pages/DashboardAdmin';
 import DashboardJournaliste from './Components/pages/DashboardJournaliste';
 import AddUsers from './Components/users/AddUsers';
 import Contactus from './Components/pages/ContactUs/Contactus'
-import PrivateRoute from './Components/Routes/PrivateRouteAdmin';
+
+import {PrivateRouteAdmin,PrivateRouteJournaliste} from './Components/routes/PrivateRoute';
 function App() {
  
     const dispatch = useDispatch();
@@ -50,8 +51,10 @@ function App() {
     <Route exact path='/' component={Home}/>
     <Route  path='/Signin' component={SignIn}/>
     <Route  path='/Signup' component={SignUp}/>
-    <PrivateRoute  path='/dashboardAdmin' component={DashboardAdmin} exact />
-    <Route  path='/dashboardJournaliste' component={DashboardJournaliste}/>
+
+    <PrivateRouteAdmin  path='/dashboardAdmin' component={DashboardAdmin}/>
+    <PrivateRouteJournaliste  path='/dashboardJournaliste' component={DashboardJournaliste}/>
+
 
 
     <Route path='/listusers' render={()=><UserList/>} />

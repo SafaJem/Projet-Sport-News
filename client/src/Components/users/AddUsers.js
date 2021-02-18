@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import { useDispatch } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { registerUser } from "../../Redux/actions/sportAction";
+// import { registerUser } from "../../Redux/actions/sportAction";
+import { addUser } from "../../Redux/actions/adminAction";
 const AddUsers = () => {
   const [name, setName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -12,7 +13,7 @@ const AddUsers = () => {
   const [cancel, setCancel] = useState(false);
   const dispatch = useDispatch();
   const add = () => {
-    dispatch(registerUser({name,lastName,email, password,role }));
+    dispatch(addUser({name,lastName,email, password,role }));
     setCancel(!cancel);
   };
   return (

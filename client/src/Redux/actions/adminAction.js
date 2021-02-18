@@ -6,7 +6,11 @@ export const getAllUsers = () => (dispatch) => {
     .then((res) => dispatch({ type: GET_ALL_USERS, payload: res.data }))
     .catch((err) => console.log(err));
 };
-
+export const addUser = (formData) => (dispatch) => {
+  axios.post("/api/sport/add",formData)
+    .then((res) => dispatch({ type: GET_ALL_USERS, payload: res.data }))
+    .catch((err) => console.log(err));
+};
 
 export const deleteUser = (idUser) => (dispatch) => {
   axios
