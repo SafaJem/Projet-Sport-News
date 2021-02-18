@@ -1,6 +1,52 @@
 import axios from 'axios'
-import { GET_ARTICLE } from '../constants/actionTypes';
+import { GET_ARTICLE,ADD_COMMENT , REMOVE_COMMENT,ADD_RECLAMATION} from '../constants/actionTypes';
 
+export const addComment = (postId, formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+     'x-auth-token': localStorage.getItem('token'),
+    },
+  };
+ 
+  try {
+    const res = await axios.post(
+      `/api/article/newcomment/${postId}`,formData,config
+    );
+
+    dispatch({
+      type: ADD_COMMENT,
+      payload: res.data,
+    });
+   
+  } catch (err) {
+    console.dir(err);
+  }
+};
+
+
+export const addReclamation = (postId, formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+     'x-auth-token': localStorage.getItem('token'),
+    },
+  };
+ 
+  try {
+    const res = await axios.post(
+      `/api/article/reclamation/${postId}`,formData,config
+    );
+
+    dispatch({
+      type: ADD_RECLAMATION,
+      payload: res.data,
+    });
+   
+  } catch (err) {
+    console.dir(err);
+  }
+};
 
 export const addArticle=(formData)=>async (dispatch) =>{
 try{
@@ -71,7 +117,19 @@ export const editArticle=(idArticle,formData)=>async (dispatch) =>{
     console.dir(err);
     }
     }  
-     
+    export const deleteComment = (postId, commentId) => async (dispatch) => {
+        try {
+          const res = await axios.delete(`/api/article/deletecomment/"${postId}/${commentId}`);
+      
+          dispatch({
+            type: REMOVE_COMMENT,
+            payload: commentId,
+          });
+        }
+        catch(err){
+            console.dir(err)
+        }
+    }
  /* export const commentArticle=(idArticle,formData)=>async (dispatch) =>{
 
     try{
@@ -86,6 +144,53 @@ export const editArticle=(idArticle,formData)=>async (dispatch) =>{
     //dispatch(articleError(err));
     }
 }   
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+export const addComment = (postId, formData) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.post(
+      `/api/posts/comment/${postId}`,
+      formData,
+      config
+    );
+
+    dispatch({
+      type: ADD_COMMENT,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Comment Added', 'success'));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+
+------------------------------------------------------------
+
+
+
+
+
 
 export const editComment=(formData,idArticle,idComment)=>async (dispatch) =>{
 
@@ -129,5 +234,4 @@ export const deleteComment=(idArticle,idComment)=>async (dispatch) =>{
             console.dir(err);
             //dispatch(articleError(err));
             }
-            }   */
-                       
+            }*/

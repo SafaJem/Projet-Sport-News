@@ -1,6 +1,8 @@
-import { GET_ARTICLE } from "../constants/actionTypes"
+import { GET_ARTICLE ,ADD_COMMENT,
+   REMOVE_COMMENT,
+   ADD_RECLAMATION, } from "../constants/actionTypes"
 
-const initialState= {articles:[],}
+const initialState= {articles:[] ,}
 
 
     const articleReducer =(state=initialState,{type,payload})=>{
@@ -11,12 +13,52 @@ const initialState= {articles:[],}
                        ...state,
                        articles : payload};
 
+              
+
+
+
+
+
+                        
+                       case ADD_COMMENT:
+
+                        return {
+                         ... state ,articles : state.articles.articles.map(el=>el._id !== payload._id ? el : ({...el,comments:payload }) )
+                         
+                        };
+                           
+                       case ADD_RECLAMATION:
+
+                        return {
+                         ... state ,articles : state.articles.articles.map(el=>el._id !== payload._id ? el : ({...el,reclamArticles:payload }) )
+                         
+                        };
+                        case REMOVE_COMMENT:
+                          return {
+                            ...state,
+                            article: {
+                              ...state.article,
+                              comments: state.article.comments.filter(
+                                (comment) => comment._id !== payload
+                              ),
+                            }}
+                            default:
+                 return state;
         /*      case artTypes.GET_ONE_ARTICLE :
               return [...state.articles.filter(el=>el._id!==payload._id)   ]      
                              
            
-                 
-                 
+                 ---
+                  case REMOVE_COMMENT:
+      return {
+        ...state,
+        post: {
+          ...state.post,
+          comments: state.post.comments.filter(
+            (comment) => comment._id !== payload
+          ),
+        },
+                 ---
            case  artTypes.COMMENT_ARTICLE :
                  return state.articles.map(el=>el._id===payload._id ?[...el.commentaires ,payload] : el )
               
@@ -31,8 +73,7 @@ const initialState= {articles:[],}
                   return state.articles.map(el=>el._id===payload._id ?[...el.reclamArticles ,payload] : el )*/
                
                    
-             default:
-                 return state;
+             
             }
             }
             export default articleReducer;    

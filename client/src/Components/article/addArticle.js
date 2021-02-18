@@ -22,7 +22,8 @@ return(
     <>
     {cancel?
     (<Redirect to='/listarticle'/>)
-    :(<div style={{ margin: "100px" }}>
+    :(<div style={{ margin: "100px" }}> 
+    <Form>
        <FormGroup>
         <Label for="exampletitle">Title</Label>
         <Input
@@ -32,7 +33,6 @@ return(
           placeholder="Enter your title"
         />
       </FormGroup>
-    <Form>
       <FormGroup>
         <Label for="exampletext">Text</Label>
         <Input

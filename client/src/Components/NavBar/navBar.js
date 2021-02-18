@@ -18,6 +18,7 @@ console.log(user)
   };
   const authLinks = (
     <Fragment>
+      
        <Nav.Link href="#Articles">Articles</Nav.Link>
       <Nav.Link href="/profile">Profile</Nav.Link>
  <Nav.Item ><Link to="/dashboardAdmin"> <span className="navbar-text mr-4"><strong> Admin </strong> </span></Link> </Nav.Item> 

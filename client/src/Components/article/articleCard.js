@@ -1,9 +1,9 @@
 import React from 'react';
 import { useDispatch} from 'react-redux';
-
+import {Fragment} from 'react'
 import {
   Card, CardImg, CardText, CardBody,
-  CardTitle, CardSubtitle, Button
+  CardTitle, CardSubtitle, Button,
 } from 'reactstrap';
 import { deleteArticle } from '../../Redux/actions/articleAction';
 import EditArticle from './EditArticle';
@@ -27,17 +27,20 @@ const ArticleCard = ({article}) => {
           <CardTitle tag="h5">{article.title}</CardTitle>
           <CardSubtitle tag="h6" className="mb-2 text-muted">
    
-       Publier le   {article.date.slice(0, 10)} ---{" "}
+       Publié le   {article.date.slice(0, 10)} ---{" "}
           {article.date.slice(11, 19)}
           </CardSubtitle>
           <CardText>{article.text}</CardText>
-          <CardText>Créer par {article.nameJournaliste}</CardText><div style={{ display: "flex", justifyContent: "space-arround" }}>
+          <CardText>aaaaCréer par {article.nameJournaliste}</CardText><div style={{ display: "flex", justifyContent: "space-arround" }}>
      <Button color="warning" onClick={delet}>delete</Button> 
         <EditArticle article={article}/>
         </div>
         </CardBody>
-        
-      </Card>
+       <Fragment>
+     
+    </Fragment>
+      </Card> 
+    
     </div>
   );
 };
