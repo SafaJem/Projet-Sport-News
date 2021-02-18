@@ -6,9 +6,7 @@ import './contactus.css';
 const Contactus = () => {
     return (
         <div>
-
         <NavBar/>
-
         <footer className="footer">
             <div className="footer-wrapper p-5" id="contact">
                 <div className="row">

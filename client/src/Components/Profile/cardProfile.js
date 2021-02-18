@@ -8,13 +8,15 @@ import {
 } from "reactstrap";
 
 import { useSelector } from 'react-redux';
+import NavBar from "../NavBar/navBar";
 
 function CardUser() {
   const isAuth = useSelector((state) => state.sportReducer.isAuth);
     const user = useSelector((state) => state.sportReducer.user);
     return ( 
-
-        <Col sm="12" md="6" className="my-3">
+      <div>
+      <NavBar/>
+        <Col sm="12" md="15" className="my-3 align-items-center"  >
       <Card>
         <CardHeader className="p-4 d-flex justify-content-around align-items-center ">
           <CardText
@@ -22,8 +24,9 @@ function CardUser() {
               width: "70px",
               height: "70px",
               fontSize: "1.5em",
+              color:'#ecd599'
             }}
-            className="d-flex justify-content-center align-items-center mr-auto border rounded-circle text-light bg-info text-md"
+            className="d-flex justify-content-center align-items-center mr-auto border rounded-circle text-light bg-success text-md"
           >
             {user ? ` ${user.name&&user.name[0].toUpperCase()}`: null}
             
@@ -36,6 +39,6 @@ function CardUser() {
           </ListGroup>
         </CardHeader>
       </Card>
-      </Col>  ) 
+      </Col> </div> ) 
     }
-export default CardUser;
+export default CardUser

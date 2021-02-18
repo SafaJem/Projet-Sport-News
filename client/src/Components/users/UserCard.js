@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteUser } from "../../Redux/actions/adminAction";
 import EditUser from "./EditUser";
+import NavBar from "../NavBar/navBar";
 
 const UserCard = ({user}) => {
   const dispatch= useDispatch()
@@ -17,6 +18,7 @@ const UserCard = ({user}) => {
   };
 
   return (<div>
+   
   <List>
   <ListItem key={user._id}  dense button >
       
@@ -29,7 +31,7 @@ const UserCard = ({user}) => {
           <EditUser user={user} />
         </IconButton>
         <IconButton edge="end" >
-          <DeleteIcon color="secondary" onClick={delet} />
+          <DeleteIcon color="success" onClick={delet} />
         </IconButton>
       </ListItemSecondaryAction>
     </ListItem>

@@ -32,6 +32,26 @@ try {
   }
 });
 
+router.post("/" ,isAuth, async (req, res) => {
+  const {text,image,title} =req.body;
+  try {
+       const user = await User.findById(req.user._id).select("-password");
+        const newArticle = {
+        title,
+        text,
+        image, 
+         nameJournaliste:user.name,
+  
+      };
+      const article = await new Article(newArticle).save();
+      res.json({ msg: "article added", article });
+    } catch (error) {
+        console.log(error)
+      res.status(500).json("Server Error !");
+    }
+  });
+  
+
 // Get articles
 // acces public
 router.get("/",async (req, res) => {
@@ -119,10 +139,6 @@ router.post("/newcomment/:index", isAuth, async (req, res) => {
       };
       
     article.comments.unshift(newComment)
-
-    /*  $push:{comments:{commentaire:req.body.commentaire,name :req.user.name}}
-    },{new:true});*/
-
       await article.save()
     res.json(article.comments);
   }
@@ -155,20 +171,27 @@ const newReclamtion ={
 
 //Delete comment
 // acces private
-router.put("/deletecomment/:_id/:index", isAuth, async (req, res) => {
+router.delete("/deletecomment/:_id/:index/", isAuth, async (req, res) => {
   const { _id } = req.params;
-  const {userId}=req.user._id;
-
   const {index} =req.params;
   try {
-
-    const article = await Article.updateOne({_id}, 
-    { $pull: { "comments" : { _id: index ,user : userId} } }, { multi: true })
-    res.json(article);
+    const article = await Article.findById(_id)
+      const comment = article.comments.find(
+        (comment) => comment.id ===index);
+       if (!comment) {
+      return res.status(404).json({ msg: 'Comment does not exist' });
+    }
+      if (comment.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' });
+      }
+      const removeIndex = article.comments.map((comment) => comment.user.toString()).indexOf(req.user._id);
+    article.comments.splice(removeIndex, 1);
+    await article.save();
+    res.json(comment)
   }
-  catch (error) { res.status(500).send("Server Error !"); }//{ $pull: { results: { score: 8 , item: "B" } } }
+  catch (error){ 
+     res.status(500).send("Server Error !"); }//{ $pull: { results: { score: 8 , item: "B" } } }
 });
-
 
 
 //edit a comment 

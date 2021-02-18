@@ -15,11 +15,6 @@ router.get("/me",isAuth,async (req, res) => {
   
     try{
         const profile=await Profile.findById(req.user._id)
-        
-    if (!profile) {
-      return res.status(400).json({ msg: 'There is no profile for this user' });
-    }
-
     res.json(profile);
   } catch (err) {
     console.error(err.message);
@@ -44,8 +39,10 @@ router.get("/",async (req, res) => {
  router.post("/",isAuth, async (req, res) => {
   const {userName}= req.body
     try {
+      const user = await User.findById(req.user._id).select("-password");
       const newProfile = {  
-        userName
+        userName,
+        name:user.name
       };
 
       const profile = await new Profile(newProfile).save();

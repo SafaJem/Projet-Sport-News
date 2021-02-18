@@ -82,10 +82,10 @@ const EditArticle = ({ article }) => {
 
         </ModalBody>
         <ModalFooter>
-          <Button color="primary" onClick={editt}>
+          <Button  outline color="success" onClick={editt}>
             save
           </Button>{" "}
-          <Button color="secondary" onClick={toggle}>
+          <Button  outline color="success" onClick={toggle}>
             Cancel
           </Button>
         </ModalFooter>

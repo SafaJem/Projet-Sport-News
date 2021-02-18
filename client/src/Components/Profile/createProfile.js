@@ -18,7 +18,7 @@ const add=()=>
 return(
     <>
     {cancel?
-    (<Redirect to='/list'/>)
+    (<Redirect to='/profile'/>)
     :(<div style={{ margin: "100px" }}>
     <Form>
       <FormGroup>

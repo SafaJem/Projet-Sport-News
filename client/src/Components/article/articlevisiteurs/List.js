@@ -12,6 +12,7 @@ const List = ({searchbytitle}) => {
 const articles = useSelector((state)=>state.articleReducer.articles.articles);
   return (
     <div>
+      
       { articles &&
         articles.filter(el=>el.title.toLowerCase().includes(searchbytitle.toLowerCase().trim())).map((article)=>(<Cardd key={article._id} article={article} />))
       }
