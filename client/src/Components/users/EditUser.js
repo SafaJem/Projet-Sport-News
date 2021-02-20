@@ -18,13 +18,14 @@ const EditUser = ({ user }) => {
   const [name, setName] = useState(user.name);
   const [lastName, setLastName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
-  const [role, setRole] = useState(user.phone);
+  const [role, setRole] = useState(user.role);
   const toggle = () => {
     setModal(!modal);
     setName(user.name);
     setLastName(user.lastName);
     setEmail(user.email);
     setRole(user.role);
+    
   };
   const dispatch = useDispatch();
   const editt = () => {
