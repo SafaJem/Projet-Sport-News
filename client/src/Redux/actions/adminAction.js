@@ -8,7 +8,7 @@ export const getAllUsers = () => (dispatch) => {
 };
 export const addUser = (formData) => (dispatch) => {
   axios.post("/api/sport/add",formData)
-    .then((res) => dispatch({ type: GET_ALL_USERS, payload: res.data }))
+    .then((res) =>  dispatch(getAllUsers()))
     .catch((err) => console.log(err));
 };
 

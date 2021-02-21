@@ -17,7 +17,7 @@ export const addComment = (postId, formData) => async (dispatch) => {
     dispatch({
       type: ADD_COMMENT,
       payload: res.data,
-    });
+    } && getArticles());
    
   } catch (err) {
     console.dir(err);
@@ -35,7 +35,7 @@ export const deleteComment = (articleId, commentId) => async (dispatch) => {
       dispatch({
         type: REMOVE_COMMENT,
         payload:{ commentId,articleId}
-      });
+      } && getArticles());
     }
     catch(err){
         console.dir(err)
@@ -58,7 +58,7 @@ export const deleteComment = (articleId, commentId) => async (dispatch) => {
     dispatch({
       type: ADD_RECLAMATION,
       payload: res.data,
-    });
+    } && getArticles());
    
   } catch (err) {
     console.dir(err);
@@ -77,10 +77,7 @@ export const addArticle=(formData)=>async (dispatch) =>{
     };
       
   const res= await axios.post('/api/article/',formData,config);
-  dispatch({
-      type:GET_ARTICLE,
-      payload:res.data
-  });
+  dispatch(getArticles());
   }
   catch (err){
       console.dir(err);
@@ -102,16 +99,12 @@ export const getArticles=()=>async (dispatch) =>{
         console.dir(err);
         }
     }   
-    
   
 export const editArticle=(idArticle,formData)=>async (dispatch) =>{
 
     try{
     const res= await axios.put(`/api/article/edit/${idArticle}`,formData);
-    dispatch({
-        type:GET_ARTICLE,
-        payload:res.data
-    });
+    dispatch(getArticles());
     }
     catch (err){
     console.dir(err);
@@ -122,10 +115,7 @@ export const editArticle=(idArticle,formData)=>async (dispatch) =>{
 
   try{
     const res= await axios.delete(`/api/article/delete/${idArticle}`);
-    dispatch({
-        type:GET_ARTICLE,
-        payload:res.data
-    });
+    dispatch(getArticles());
     }
     catch (err){
     console.dir(err);
