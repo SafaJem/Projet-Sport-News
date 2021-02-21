@@ -2,14 +2,14 @@ import axios from 'axios'
 import {SPORT_ERRORS,REGISTER_USER,LOGIN_USER,GET_PROFILE,USER_LOADING,GET_AUTH_USER,LOGOUT_USER,DELETED_USER} from '../constants/actionTypes'
 import { Alert, AlertTitle } from '@material-ui/lab';
 
+// Loading
 const userLoading = () => (dispatch) => {
     dispatch({
       type: USER_LOADING,
     });
   };
   
-
-
+ // get errors
 const sportErrors=(error)=>(dispatch)=>{
     const {errors,msg}= error.response.data
 if (Array.isArray(errors)){
@@ -33,6 +33,7 @@ if(msg){
     );
 }  
 
+// Register user
 export const registerUser=(formData)=>async (dispatch) =>{
     dispatch(userLoading());
 try{
@@ -48,6 +49,7 @@ catch (err){
 }
 }   
 
+// Login user
 export const loginUser=(formData)=>async (dispatch) =>{
     dispatch(userLoading());
     try{
@@ -84,13 +86,14 @@ export const getAuthUser = () => async (dispatch) => {
         }
         } 
         
-  
+  // Logout user
   export const logout = () => (dispatch) => {
     dispatch({
       type: LOGOUT_USER,
     });
   };
 
+  
   export const deleteAuthUser = () => async (dispatch) => {
     dispatch(userLoading());
     try {

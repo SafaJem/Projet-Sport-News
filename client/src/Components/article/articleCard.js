@@ -31,6 +31,7 @@ const ArticleCard = ({article}) => {
           </CardSubtitle>
           <CardText>{article.text}</CardText>
           <CardText>Crée par {article.nameJournaliste}</CardText><div style={{ display: "flex", justifyContent: "space-arround" }}>
+      
      <Button color="warning" onClick={delet}>delete</Button> 
         <EditArticle article={article}/>
         </div>
