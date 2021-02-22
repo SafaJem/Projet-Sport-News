@@ -1,8 +1,8 @@
 // Require express
-const path = require('path')
 const express = require('express');
 const bodyParser = require('body-parser')
 const fs = require('fs')
+const path=require("path")
 
 // Require connectDB
 const connectDB = require('./config/connectDB');
