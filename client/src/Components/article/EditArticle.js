@@ -18,17 +18,15 @@ const EditArticle = ({ article }) => {
   const [title, setTitle] = useState(article.title);
   const [text, setText] = useState(article.text);
   const [image, setImage] = useState(article.image);
-  const [nameJournaliste, setNameJournaliste] = useState(article.nameJournaliste);
   const toggle = () => {
     setModal(!modal);
     setTitle(article.title);
     setText(article.text);
     setImage(article.image);
-    setNameJournaliste(article.nameJournaliste);
   };
   const dispatch = useDispatch();
   const editt = () => {
-    dispatch( editArticle(article._id, {text,title,image,nameJournaliste }));
+    dispatch( editArticle(article._id, {text,title,image}));
     toggle();
   };
   return (
@@ -69,15 +67,7 @@ const EditArticle = ({ article }) => {
           placeholder="Enter your image"
         />
       </FormGroup>
-      <FormGroup>
-        <Label for="exampletext">Name Journaliste</Label>
-        <Input
-          value={nameJournaliste}
-          onChange={(e) => setNameJournaliste(e.target.value)}
-          type="name"
-          placeholder="Enter your text"
-        />
-      </FormGroup>
+      
           </Form>
 
         </ModalBody>

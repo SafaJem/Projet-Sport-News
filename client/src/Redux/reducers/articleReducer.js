@@ -12,13 +12,6 @@ const initialState= {articles:[] ,}
                      return{
                        ...state,
                        articles : payload};
-
-              
-
-
-
-
-
                         
                        case ADD_COMMENT:
 
@@ -40,35 +33,6 @@ const initialState= {articles:[] ,}
                             }
                         default:
                  return state;
-        /*      case artTypes.GET_ONE_ARTICLE :
-              return [...state.articles.filter(el=>el._id!==payload._id)   ]      
-                             
-           
-                 ---
-                  case REMOVE_COMMENT:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          comments: state.post.comments.filter(
-            (comment) => comment._id !== payload
-          ),
-        },
-                 ---
-           case  artTypes.COMMENT_ARTICLE :
-                 return state.articles.map(el=>el._id===payload._id ?[...el.commentaires ,payload] : el )
-              
-             case  artTypes.EDIT_COMMENT :
-             
-               return state.articles.map(el=>el._id===payload._id ?el.commentaires.map(comment=>comment.id!==payload.id ?comment:{...comment ,commentaire:payload.commentaire}) : el )
-
-             case  artTypes.DELETE_COMMENT :
-                 return state.articles.map(el=>el._id===payload._id ?el.commentaires.filter(comment=>comment.id!==payload.id) : el )
-                  
-                 case  artTypes.ADD_RECLAMATION:
-                  return state.articles.map(el=>el._id===payload._id ?[...el.reclamArticles ,payload] : el )*/
-               
-                   
              
             }
             }
