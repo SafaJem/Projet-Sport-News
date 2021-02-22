@@ -15,20 +15,6 @@ app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-const whitelist = ['http://localhost:3000'​, 'http://localhost:8080'​, 'https://shrouded-journey-38552.heroku'​]
-const corsOptions = {
-  origin: function (origin, callback) {
-    console.log("** Origin of request " + origin)
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      console.log("Origin acceptable")
-      callback(null, true)
-    } else {
-      console.log("Origin rejected")
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-}
-app.use(cors(corsOptions))
 
 // Set EJS as templating engine 
 //app.set("view engine", "ejs");
