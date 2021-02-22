@@ -1,13 +1,19 @@
-import React, { Fragment } from 'react';
+import React, { Fragment ,useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect ,useDispatch} from 'react-redux';
 import { deleteComment } from '../../Redux/actions/articleAction';
 
 const CommentItem = ({
-  comment: { commentaire, name , user, date },
+  comment: {_id, commentaire, name , user, date },idArticle
  
 }) => {
+ 
+  const dispatch = useDispatch();
+  const deletComm = () => {
+
+    dispatch(deleteComment(idArticle , _id));
+  };
   return (
     <Fragment>
       <div class="post bg-white p-1 my-1">
@@ -20,11 +26,11 @@ const CommentItem = ({
         <div>
           <p class="my-1">{commentaire}</p>
           <p class="post-date">
-          {date.slice(0, 10)} ---{" "}
-          {slice(11, 19)}          </p>
+ {date.slice(0, 10)} ---{" "}
+          {date.slice(11, 19)}          </p>
           
             <button
-            
+            onClick={deletComm}
               type="button"
               className="btn btn-danger"
             >
@@ -36,9 +42,9 @@ const CommentItem = ({
     </Fragment>
   );
 };
-
+// onClick={(e) => deleteComment(postId, _id)}
 CommentItem.propTypes = {
-  postId: PropTypes.string.isRequired,
+  idArticle: PropTypes.string.isRequired,
   comment: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
 };

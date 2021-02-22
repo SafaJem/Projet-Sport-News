@@ -2,6 +2,7 @@ import React, { useState, Fragment } from 'react';
 import { Nav,Navbar,Form,FormControl,Button } from 'react-bootstrap';
 import { logout } from '../../Redux/actions/sportAction';
 import { useSelector, useDispatch } from 'react-redux';
+import {Link} from 'react-router-dom'
 
 
 const NavBar = ({setSearchbytitle}) => {
@@ -9,7 +10,8 @@ const NavBar = ({setSearchbytitle}) => {
  
   const isAuth = useSelector((state) => state.sportReducer.isAuth);
   const user = useSelector((state) => state.sportReducer.user);
-
+  
+ 
 console.log(user)
   const logoutUser = () => {
     dispatch(logout());
@@ -19,9 +21,12 @@ console.log(user)
       
        <Nav.Link href="#Articles">Articles</Nav.Link>
       <Nav.Link href="/profile">Profile</Nav.Link>
+ <Nav.Item ><Link to="/dashboardAdmin"> <span className="navbar-text mr-4"><strong> Admin </strong> </span></Link> </Nav.Item> 
+  <Nav.Item ><Link to="/dashboardJournaliste"> <span className="navbar-text mr-4"><strong> Journaliste </strong> </span></Link> </Nav.Item>
+
       <Nav.Link href="/" onClick={logoutUser}>
         {' '}
-        Logout
+        Sign Out
       </Nav.Link>
     </Fragment>
   );
@@ -30,6 +35,7 @@ console.log(user)
     <Fragment>
      <Nav.Link href="/Signin"> Sign In </Nav.Link>
       <Nav.Link href="/Signup">Sign Up</Nav.Link>
+
     </Fragment>
   );
 

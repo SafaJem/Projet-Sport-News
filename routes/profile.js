@@ -28,6 +28,7 @@ router.get("/me",isAuth,async (req, res) => {
 });
 
 
+
 // get all profiles 
 router.get("/",async (req, res) => {
   try {

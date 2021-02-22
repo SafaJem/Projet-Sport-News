@@ -117,13 +117,19 @@ export const editArticle=(idArticle,formData)=>async (dispatch) =>{
     console.dir(err);
     }
     }  
-    export const deleteComment = (postId, commentId) => async (dispatch) => {
-        try {
-          const res = await axios.delete(`/api/article/deletecomment/"${postId}/${commentId}`);
+    export const deleteComment = (articleId, commentId) => async (dispatch) => {
+      const config = {
+        headers: {
+         'x-auth-token': localStorage.getItem('token'),
+        },
+      };
       
+        try {
+          const res = await axios.delete(`/api/article/deletecomment/${articleId}/${commentId}`,config);
+       
           dispatch({
             type: REMOVE_COMMENT,
-            payload: commentId,
+            payload:{ commentId,articleId}
           });
         }
         catch(err){
@@ -156,7 +162,7 @@ export const editArticle=(idArticle,formData)=>async (dispatch) =>{
 ------------------------------------------------------------
 
 
-export const addComment = (postId, formData) => async (dispatch) => {
+export const addComment = (articleId, formData) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',

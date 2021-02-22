@@ -124,7 +124,7 @@ router.post("/newcomment/:index", isAuth, async (req, res) => {
     },{new:true});*/
 
       await article.save()
-    res.json(article.comments);
+    res.json(article);
   }
   catch (error) { res.status(500).send(error); }
 });
@@ -155,20 +155,67 @@ const newReclamtion ={
 
 //Delete comment
 // acces private
-router.put("/deletecomment/:_id/:index", isAuth, async (req, res) => {
+router.delete("/deletecomment/:_id/:index/", isAuth, async (req, res) => {
   const { _id } = req.params;
-  const {userId}=req.user._id;
 
   const {index} =req.params;
   try {
+    const article = await Article.findById(_id)
+   
+      const comment = article.comments.find(
+        (comment) => comment.id ===index);
 
-    const article = await Article.updateOne({_id}, 
-    { $pull: { "comments" : { _id: index ,user : userId} } }, { multi: true })
-    res.json(article);
+
+       if (!comment) {
+      return res.status(404).json({ msg: 'Comment does not exist' });
+    }
+      if (comment.user.toString() !== req.user.id) {
+        return res.status(401).json({ msg: 'User not authorized' });
+      }
+      const removeIndex = article.comments.map((comment) => comment.user.toString()).indexOf(req.user._id);
+
+    article.comments.splice(removeIndex, 1);
+
+    await article.save();
+    res.json(comment)
   }
-  catch (error) { res.status(500).send("Server Error !"); }//{ $pull: { results: { score: 8 , item: "B" } } }
+  catch (error){ 
+     res.status(500).send("Server Error !"); }//{ $pull: { results: { score: 8 , item: "B" } } }
 });
+/*
+router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
 
+    // Post out comment
+    const comment = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
+
+    // Make sure comment exsits
+    if (!comment) {
+      return res.status(404).json({ msg: 'Comment does not exist' });
+    }
+    // Check user
+    if (comment.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+    // Get remove index
+    const removeIndex = post.comments
+      .map((comment) => comment.user.toString())
+      .indexOf(req.user.id);
+
+    post.comments.splice(removeIndex, 1);
+
+    await post.save();
+
+    res.json(post.comments);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
+*/
 
 
 //edit a comment 

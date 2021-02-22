@@ -8,7 +8,8 @@ const CommentForm = ({ article}) => {
   const dispatch = useDispatch()
   const add =()=>{
     dispatch(addComment(article._id,{commentaire}))
-  setCommentaire('')}
+  setCommentaire('')
+}
 
 
 

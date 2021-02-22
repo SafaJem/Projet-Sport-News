@@ -24,7 +24,7 @@ const Cardd = ({article}) => {
         </CardBody>
           <CommentForm article={article} />
       </Card>
-      <CommentList comments={article.comments} />
+      <CommentList comments={article.comments} idArticle={article._id} />
       <FormReclamation article = {article}/>
     </div>
   );

@@ -23,7 +23,7 @@ const initialState= {articles:[] ,}
                        case ADD_COMMENT:
 
                         return {
-                         ... state ,articles : state.articles.articles.map(el=>el._id !== payload._id ? el : ({...el,comments:payload }) )
+                         ... state.articles ,articles : state.articles.articles.map(el=>el._id !== payload._id ? el : ({...el,comments:payload }) )
                          
                         };
                            
@@ -33,15 +33,11 @@ const initialState= {articles:[] ,}
                          ... state ,articles : state.articles.articles.map(el=>el._id !== payload._id ? el : ({...el,reclamArticles:payload }) )
                          
                         };
-                        case REMOVE_COMMENT:
+                       case REMOVE_COMMENT:
+                          let newstate  ={ ...state, articles:  state.articles.articles.filter( art => art._id !== payload.articleId)}
                           return {
-                            ...state,
-                            article: {
-                              ...state.article,
-                              comments: state.article.comments.filter(
-                                (comment) => comment._id !== payload
-                              ),
-                            }}
+                        ... newstate.articles.comments.filter(el=>el._id!== payload.commentId)
+                            }
                             default:
                  return state;
         /*      case artTypes.GET_ONE_ARTICLE :
