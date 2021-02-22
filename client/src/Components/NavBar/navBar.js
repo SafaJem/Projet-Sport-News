@@ -25,6 +25,7 @@ console.log(user)
   <Nav.Item ><Link to="/dashboardJournaliste"> <span className="navbar-text mr-4"><strong> Journaliste </strong> </span></Link> </Nav.Item>
 
       <Nav.Link href="/" onClick={logoutUser}>
+
         {' '}
         Sign Out
       </Nav.Link>
@@ -33,6 +34,7 @@ console.log(user)
 
   const guestLinks = (
     <Fragment>
+     
      <Nav.Link href="/Signin"> Sign In </Nav.Link>
       <Nav.Link href="/Signup">Sign Up</Nav.Link>
 
@@ -47,8 +49,8 @@ return (
     <Navbar.Brand href="/">Sport News</Navbar.Brand>
     <Nav className="mr-auto">
       <Nav.Link href="/">Home</Nav.Link>
-     
       <Nav.Link href="/contactus">Contact Us</Nav.Link>
+      <Nav.Link href="/Article">Articles</Nav.Link>
       {isAuth ? authLinks : guestLinks}
 
 

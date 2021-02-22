@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Spinner } from 'reactstrap';
 import SignIn from './Components/auth/SignIn';
 import SignUp from './Components/auth/SignUp';
-import Home from './Components/pages/Home'
 import CreateProfile from './Components/Profile/createProfile';
 import CardProfile from './Components/Profile/cardProfile'
 import { getAuthUser } from './Redux/actions/sportAction';
@@ -20,8 +19,10 @@ import DashboardJournaliste from './Components/pages/DashboardJournaliste';
 import AddUsers from './Components/users/AddUsers';
 import Contactus from './Components/pages/ContactUs/Contactus'
 
+import {PrivateRouteAdmin,PrivateRouteJournaliste} from './Components/routes/PrivateRoute';
+import Article from './Components/pages/Article';
+import Home from './Components/pages/Home';
 
-import {PrivateRouteAdmin,PrivateRouteJournaliste} from './Components/Routes/PrivateRoute';
 function App() {
  
     const dispatch = useDispatch();
@@ -48,13 +49,15 @@ function App() {
    <BrowserRouter>
     
     <Switch>
-    <Route exact path='/art' component={ArtCard}/>
     <Route exact path='/' component={Home}/>
+    <Route  path='/Article' component={Article}/>
     <Route  path='/Signin' component={SignIn}/>
     <Route  path='/Signup' component={SignUp}/>
 
     <PrivateRouteAdmin  path='/dashboardAdmin' component={DashboardAdmin}/>
     <PrivateRouteJournaliste  path='/dashboardJournaliste' component={DashboardJournaliste}/>
+
+
 
 
     <Route path='/listusers' render={()=><UserList/>} />
