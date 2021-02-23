@@ -3,6 +3,7 @@ const path = require('path')
 const express = require('express');
 const bodyParser = require('body-parser')
 const fs = require('fs')
+const path = require('path')
 
 // Require connectDB
 const connectDB = require('./config/connectDB');
@@ -15,7 +16,7 @@ app.use(express.json());
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
-
+npm 
 // Set EJS as templating engine 
 //app.set("view engine", "ejs");
 
