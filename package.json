@@ -2,10 +2,12 @@
   "name": "authentification",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",  "engines": {
-    "node": "15.x"},
+  "main": "server.js",
+  "engines": {
+    "node": "15.x",
+    "npm": "7.x"
+  },
   "scripts": {
-
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "cd client && npm run start",
